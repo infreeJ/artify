@@ -6,4 +6,28 @@
 		FROM users
 		WHERE id = #{id}
 	</select>
+	
+	<insert id="createUser" parameterType="userDto">
+		INSERT INTO users(id, login_id, pwd, name, age, gender, persona, org_profile_img_name, uuid_profile_img_name)
+		VALUES(users_seq.NEXTVAL, #{loginId}, #{pwd}, #{name}, #{age}, #{gender}, #{persona}, #{orgProfileImgName}, #{uuidProfileImgName})
+	</insert>
+	
+	<delete id="deleteUserById" parameterType="long">
+		DELETE FROM users
+		WHERE id = #{id}
+	</delete>
+	
+	<update id="updateUserById" parameterType="userDto">
+		UPDATE users
+		SET login_id = #{loginId}, name = #{name}, age = #{age}, gender = #{gender}, persona = #{persona}, org_profile_img_name = #{orgProfileImgName}, uuid_profile_img_name = #{uuidProfileImgName}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updatePwdById" parameterType="userDto">
+		UPDATE users
+		SET pwd = #{pwd}
+		WHERE id = #{id}
+	</update>
 </mapper>
+
+

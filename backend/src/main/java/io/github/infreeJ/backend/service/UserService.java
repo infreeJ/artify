@@ -9,7 +9,7 @@ public interface UserService {
 	
 	public int deleteUserById(long id);
 	
-	public int updateUserById(long id);
+	public int updateUserById(UserDto dto);
 	
-	public int updatePwdById(long id);
+	public int updatePwdById(UserDto dto);
 }

@@ -44,13 +44,13 @@ public class UserController {
 	}
 
 	@PutMapping("/user")
-	public int updateUserById(@RequestBody long id) {
-		return service.updateUserById(id);
+	public int updateUserById(@RequestBody UserDto dto) {
+		return service.updateUserById(dto);
 	}
 	
 	@PatchMapping("/user")
-	public int updatePwdById(@RequestBody long id) {
-		return service.updatePwdById(id);
+	public int updatePwdById(@RequestBody UserDto dto) {
+		return service.updatePwdById(dto);
 	}
 }
 

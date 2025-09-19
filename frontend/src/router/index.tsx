@@ -1,4 +1,6 @@
 import { createHashRouter } from "react-router-dom";
+import App from "../App";
+import Home from "../pages/Home";
 
 const routes = [
    { path : "/index.html", element : <Home/>},

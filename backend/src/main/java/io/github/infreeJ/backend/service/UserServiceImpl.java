@@ -29,17 +29,14 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int updateUserById(long id) {
-		return mapper.updateUserById(id);
+	public int updateUserById(UserDto dto) {
+		return mapper.updateUserById(dto);
 	}
 
 	@Override
-	public int updatePwdById(long id) {
-		return mapper.updatePwdById();
+	public int updatePwdById(UserDto dto) {
+		return mapper.updatePwdById(dto);
 	}
-	
-	
-
 }
 
 
