@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.infreeJ.backend.repository.DiaryMapper">
+
+	<select id="getDiaryDetailById" parameterType="long" resultType="diaryDto">
+		SELECT *
+		FROM diaries
+		WHERE id = #{id}
+	</select>
+	
+	<resultMap type="io.github.infreeJ.backend.dto.DiaryImageDto" id="DiaryImageMap">
+        <id property="id" column="image_id"/> 
+        <result property="orgDiaryImgName" column="org_diary_img_name"/>
+        <result property="uuidDiaryImgName" column="uuid_diary_img_name"/>
+    </resultMap>
+	
+	<resultMap type="io.github.infreeJ.backend.dto.DiaryDto" id="DiaryWithImageMap">
+		<id property="id" column="diary_id"/>
+		<result property="title" column="title"/>
+		<result property="mood" column="mood"/>
+		<result property="createdAt" column="created_at"/>
+		<association property="diaryImage" resultMap="DiaryImageMap"/>
+	</resultMap>
+	
+	<resultMap type="io.github.infreeJ.backend.dto.UserDto" id="userWithDiariesAndImageMap">
+		<id property="id" column="user_id"/>
+		<collection property="diaries" resultMap="DiaryWithImageMap"/>
+	</resultMap>
+	
+	
+	<select id="getDiaryListById" resultMap="userWithDiariesAndImageMap">
+		SELECT u.id AS user_id,
+			d.id AS diary_id, d.title, d.mood, d.created_at,
+			i.id AS image_id, i.org_diary_img_name, i.uuid_diary_img_name
+		FROM users u LEFT JOIN diaries d ON u.id = d.user_id
+			LEFT JOIN diary_images i ON d.id = i.diary_id
+		WHERE u.id = #{id}
+	</select>
+	
+	<insert id="createDiary" parameterType="diaryDto">
+		INSERT INTO diaries (id, user_id, title, content, mood)
+		VALUES (diaries_seq.NEXTVAL, user_id = #{userId}, title = #{title}, content = #{content}, mood = #{mood})
+	</insert>
+	
+	<update id="updateDiary" parameterType="diaryDto">
+		UPDATE diaries
+		SET title = #{title}, content = #{content}, mood = #{mood}
+	</update>
+	
+	<delete id="deleteDiary" parameterType="long">
+		DELETE FROM diaries
+		WHERE id = #{id}
+	</delete>
+</mapper>
