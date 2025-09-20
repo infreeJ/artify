@@ -28,7 +28,7 @@ public class UserController {
 //		return null;
 //	}
 	
-	@GetMapping("/user")
+	@GetMapping("/user/{id}")
 	public UserDto getDetailById(long id) {
 		return service.getDetailById(id);
 	}
