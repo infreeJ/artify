@@ -22,11 +22,11 @@ public class UserController {
 //	@GetMapping("/login-form")
 	
 	
-//	@PostMapping("/login")
-//	public UserDto login(@RequestBody UserDto dto) {
-//		service.get
-//		return null;
-//	}
+	@PostMapping("/login")
+	public UserDto login(@RequestBody UserDto dto) {
+		
+		return null;
+	}
 	
 	@GetMapping("/user/{id}")
 	public UserDto getDetailById(long id) {

@@ -1,10 +1,12 @@
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
+import Modal from "../pages/user/Modal";
 
 const routes = [
    { path : "/index.html", element : <Home/>},
-   { path : "/", element : <Home/>}
+   { path : "/", element : <Home/>},
+
 ]
 
 const router = createHashRouter([{

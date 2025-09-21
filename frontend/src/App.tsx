@@ -1,5 +1,6 @@
 import { useOutlet } from 'react-router-dom'
 import './App.css'
+import Navigation from './pages/Navigation';
 
 function App() {
 
@@ -7,6 +8,7 @@ function App() {
 
   return (
     <>
+      <Navigation></Navigation>
       {currentOutlet}
     </>
   )
