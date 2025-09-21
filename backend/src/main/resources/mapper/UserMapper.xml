@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.github.infreeJ.backend.repository.UserMapper">
+
 	<select id="getDetailById" parameterType="long" resultType="userDto">
 		SELECT *
 		FROM users
@@ -8,8 +9,8 @@
 	</select>
 	
 	<insert id="createUser" parameterType="userDto">
-		INSERT INTO users(id, login_id, pwd, name, age, gender, persona, org_profile_img_name, uuid_profile_img_name)
-		VALUES(users_seq.NEXTVAL, #{loginId}, #{pwd}, #{name}, #{age}, #{gender}, #{persona}, #{orgProfileImgName}, #{uuidProfileImgName})
+		INSERT INTO users(id, login_id, pwd, name, age, gender)
+		VALUES(users_seq.NEXTVAL, #{loginId}, #{pwd}, #{name}, #{age}, #{gender})
 	</insert>
 	
 	<delete id="deleteUserById" parameterType="long">
@@ -28,6 +29,8 @@
 		SET pwd = #{pwd}
 		WHERE id = #{id}
 	</update>
+	
+	
 </mapper>
 
 
