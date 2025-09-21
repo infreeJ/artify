@@ -13,6 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DiaryImageDto {
 	private long id;
+	private long diaryId;
 	private String OrgDiaryImgName;
 	private String uuidDiaryImgName;
 }

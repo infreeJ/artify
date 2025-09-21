@@ -40,8 +40,12 @@
 	</select>
 	
 	<insert id="createDiary" parameterType="diaryDto">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT diaries_seq.NEXTVAL
+			FROM DUAL
+		</selectKey>
 		INSERT INTO diaries (id, user_id, title, content, mood)
-		VALUES (diaries_seq.NEXTVAL, user_id = #{userId}, title = #{title}, content = #{content}, mood = #{mood})
+		VALUES (#{id}, #{userId}, #{title}, #{content}, #{mood})
 	</insert>
 	
 	<update id="updateDiary" parameterType="diaryDto">
