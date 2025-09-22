@@ -8,9 +8,19 @@
 		WHERE id = #{id}
 	</select>
 	
+	<select id="getByLoginId" parameterType="String" resultType="userDto">
+		SELECT *
+		FROM users
+		WHERE login_id = #{loginId}
+	</select>
+	
 	<insert id="createUser" parameterType="userDto">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT users_seq.NEXTVAL
+			FROM DUAL
+		</selectKey>
 		INSERT INTO users(id, login_id, pwd, name, age, gender)
-		VALUES(users_seq.NEXTVAL, #{loginId}, #{pwd}, #{name}, #{age}, #{gender})
+		VALUES(#{id}, #{loginId}, #{pwd}, #{name}, #{age}, #{gender})
 	</insert>
 	
 	<delete id="deleteUserById" parameterType="long">

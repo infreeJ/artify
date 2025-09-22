@@ -22,13 +22,14 @@ function SignupForm() {
       
       e.preventDefault()
       try {
-         axios.post('/api/user', {
+         const res = axios.post('/api/user', {
             loginId: state.loginId,
             pwd: state.pwd,
             name: state.name,
             age: state.age,
             gender: gender
          })
+         console.log(res);
       } catch(err) {
          console.log(err);
       }
@@ -68,8 +69,8 @@ function SignupForm() {
             <div className='flex flex-col'>
                <label className='ml-2' htmlFor="gender">성별</label>
                <div className='flex justify-around w-full h-12 bg-slate-300 rounded-lg p-1'>
-                  <button onClick={handleClick} type='button' name='gender' id='gender' className={`w-full rounded ${gender == 1 ? 'bg-purple-500' : ''}`} value='1'>남</button>
-                  <button onClick={handleClick} type='button' name='gender' id='gender' className={`w-full rounded ${gender == 2 ? 'bg-purple-500' : ''}`} value='2'>여</button>
+                  <button onClick={handleClick} type='button' name='gender' id='gender' className={`transition w-full rounded ${gender == 1 ? 'bg-purple-500' : ''}`} value='1'>남</button>
+                  <button onClick={handleClick} type='button' name='gender' id='gender' className={`transition w-full rounded ${gender == 2 ? 'bg-purple-500' : ''}`} value='2'>여</button>
                </div>
             </div>
             <button type='submit' className='bg-blue-500 rounded w-20 h-10 text-base text-zinc-700 font-semibold self-end mt-4'>회원가입</button>

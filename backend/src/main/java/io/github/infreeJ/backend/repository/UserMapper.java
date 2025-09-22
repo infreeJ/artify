@@ -14,7 +14,7 @@ public interface UserMapper {
 	public UserDto getDetailById(long id);
 	
 	// 유저 생성
-	public int createUser(UserDto dto);
+	public long createUser(UserDto dto);
 	
 	// 유저 삭제
 	public int deleteUserById(long id);
@@ -24,6 +24,9 @@ public interface UserMapper {
 	
 	// 유저 비밀번호 변경
 	public int updatePwdById(UserDto dto);
+	
+	// loginId 중복 조회용
+	public UserDto getByLoginId(String loginId);
 }
 
 
