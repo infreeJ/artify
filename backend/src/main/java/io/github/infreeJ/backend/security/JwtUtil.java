@@ -2,6 +2,7 @@ package io.github.infreeJ.backend.security;
 
 import java.security.Key;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,8 +54,16 @@ public class JwtUtil {
     private Boolean isTokenExpired(String token) { // 토큰 만료 여부 확인
         return extractExpiration(token).before(new Date());
     }
+    
+    // 복잡한 createToken 로직을 내부에 숨겨두고 간단히 토큰을 생성을 하는 메서드
+    // Role 정보가 없는 경우의 토큰 생성
+    public String generateToken(String username) {
+        // 내부적으로 기존 createToken 메서드를 빈 claims 맵과 함께 호출합니다.
+        return createToken(Collections.emptyMap(), username);
+    }
 
 	// 복잡한 createToken 로직을 내부에 숨겨두고 간단히 토큰을 생성을 하는 메서드
+    // Role 정보가 있는 경우의 토큰 생성
     public String generateToken(String username, Map<String, Object> extraClaims) {
         Map<String, Object> claims = new HashMap<>(extraClaims);
         return createToken(claims, username);
@@ -62,12 +71,13 @@ public class JwtUtil {
     
     // 복잡한 토큰 생성 로직
     private String createToken(Map<String, Object> claims, String subject) {
+    	final Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 추가 정보 설정
                 .setSubject(subject) // 주요 정보 설정 (주로 userName)
-                .setIssuer("your-issuer") // 발급한 주체 설정
-                .setIssuedAt(new Date(System.currentTimeMillis())) // 발급 시간 설정
-                .setExpiration(new Date(System.currentTimeMillis() + expiration)) // 만료시간 설정
+                .setIssuer("artify") // 발급한 주체 설정
+                .setIssuedAt(now) // 발급 시간 설정
+                .setExpiration(new Date(now.getTime() + expiration)) // 만료시간 설정
                 .signWith(getSigningKey()) // HS256 알고리즘으로 만든 비밀키로 서명
                 .compact(); // 모든 정보 조합 및 서명 후 인코딩
     }
