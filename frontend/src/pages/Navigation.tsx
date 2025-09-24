@@ -2,6 +2,8 @@ import cn from 'classnames'
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Modal from './user/Modal';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../store/types';
 
 type ModalMode = 'login' | 'signup';
 
@@ -17,6 +19,10 @@ function Navigation() {
    function closeModal() {
       setIsModalOpen(false);
    }
+
+   const loginId = useSelector((state: RootState) => {
+      return state.userInfo?.loginId
+   })
 
    return (
       <>
@@ -46,6 +52,7 @@ function Navigation() {
                         </li>
                      </ul>
                   </div>
+                  <p>{loginId}</p>
                   <div className="hidden md:flex items-center space-x-4">
                      <button onClick={() => openModal('login')}
                         className="py-2 px-4 bg-gray-200 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-300 transition duration-300">

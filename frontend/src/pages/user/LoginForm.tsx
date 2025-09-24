@@ -1,5 +1,9 @@
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import type { DecodedToken } from '../../types/auth.types';
 
 type formdata = {
    loginId: string;
@@ -7,6 +11,9 @@ type formdata = {
 }
 
 function LoginForm() {
+
+   const dispatch = useDispatch();
+   const nav = useNavigate();
 
    const [state, setState] = useState<formdata>({
       loginId: '',
@@ -16,15 +23,45 @@ function LoginForm() {
    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault()
       try {
-         axios.post("/api/login", {
+         const res = await axios.post("/api/login", {
             loginId: state.loginId,
             pwd: state.pwd
          })
+         const token = res.data.token
+         localStorage.setItem("token", token)
+         axios.defaults.headers.common['Authorization'] = token;
+         const decoded = jwtDecode<DecodedToken>(token.substring(7))
+         dispatch({
+            type: "USER_INFO",
+            payload: {
+               id: decoded.id,
+               loginId: decoded.sub,
+               name: decoded.name,
+               profileImageUrl: decoded.profileImageUrl ? `/api/images${decoded.profileImageUrl}` : null // 아직 경로 지정 안됨
+            }
+         })
+         const nowInSeconds = Date.now() / 1000;
+         const remainTime = (decoded.exp - nowInSeconds) * 1000;
+         const logoutTimer = setTimeout(() => {
+            dispatch({ type: "LOGOUT" });
+            nav("/");
+            alert("세션이 만료되어 자동 로그아웃 되었습니다.");
+         }, remainTime);
+
+         dispatch({ type: "SET_LOGOUT_TIMER", payload: logoutTimer });
+
+         alert("로그인 성공!");
+         // 8. 로그인 성공 후 원하는 페이지로 이동 (e.g., 메인 페이지)
+         nav("/");
+         // 또는 모달을 사용하는 경우 onClose() 호출
          alert("로그인 성공!")
+         
       } catch (err) {
          console.log(err);
       }
    }
+
+
 
    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
       setState({

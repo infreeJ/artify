@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../api/api';
 
 function SignupForm() {
 
@@ -18,18 +18,17 @@ function SignupForm() {
    });
 
    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-      console.log(gender);
       
       e.preventDefault()
       try {
-         const res = axios.post('/api/user', {
+         await api.post('/user', {
             loginId: state.loginId,
             pwd: state.pwd,
             name: state.name,
             age: state.age,
             gender: gender
          })
-         console.log(res);
+         alert("회원가입 완료!")
       } catch(err) {
          console.log(err);
       }
