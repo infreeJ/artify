@@ -1,8 +1,8 @@
 import cn from 'classnames'
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Modal from './user/Modal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../store/types';
 
 type ModalMode = 'login' | 'signup';
@@ -10,6 +10,9 @@ type ModalMode = 'login' | 'signup';
 function Navigation() {
    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
    const [modalMode, setModalMode] = useState<ModalMode>('login');
+
+   const dispatch = useDispatch();
+   const nav = useNavigate();
 
    function openModal(mode: ModalMode) {
       setModalMode(mode);
@@ -20,9 +23,19 @@ function Navigation() {
       setIsModalOpen(false);
    }
 
-   const loginId = useSelector((state: RootState) => {
-      return state.userInfo?.loginId
+   const userInfo = useSelector((state: RootState) => {
+      return state.userInfo
    })
+
+
+   // 로그아웃 핸들러
+   function handleLogout() {
+      dispatch({
+         type : "LOGOUT"
+      })
+      alert("로그아웃 완료")
+      nav("/")
+   }
 
    return (
       <>
@@ -52,17 +65,30 @@ function Navigation() {
                         </li>
                      </ul>
                   </div>
-                  <p>{loginId}</p>
-                  <div className="hidden md:flex items-center space-x-4">
-                     <button onClick={() => openModal('login')}
-                        className="py-2 px-4 bg-gray-200 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-300 transition duration-300">
-                        로그인
-                     </button>
-                     <button onClick={() => openModal('signup')}
-                        className="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
-                        회원가입
-                     </button>
-                  </div>
+
+                  {userInfo &&
+                     <div className="hidden md:flex items-center space-x-4">
+                        <p>{userInfo?.loginId}</p>
+                        <button onClick={handleLogout}
+                           className="py-2 px-4 bg-gray-200 text-gray font-semibold rounded-lg shadow-md hover:bg-red-400 transition duration-300">
+                           로그아웃
+                        </button>
+                     </div>
+                  }
+
+                  {!userInfo &&
+                     <div className="hidden md:flex items-center space-x-4">
+                        <button onClick={() => openModal('login')}
+                           className="py-2 px-4 bg-gray-200 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-300 transition duration-300">
+                           로그인
+                        </button>
+                        <button onClick={() => openModal('signup')}
+                           className="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
+                           회원가입
+                        </button>
+                     </div>
+                  }
+
                   <div className="md:hidden">
                      <button>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

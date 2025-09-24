@@ -5,17 +5,21 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import type { DecodedToken } from '../../types/auth.types';
 
-type formdata = {
+type Formdata = {
    loginId: string;
    pwd: string;
 }
 
-function LoginForm() {
+interface LoginFormProps {
+   onClose: () => void;
+}
+
+function LoginForm({onClose}: LoginFormProps) {
 
    const dispatch = useDispatch();
    const nav = useNavigate();
 
-   const [state, setState] = useState<formdata>({
+   const [state, setState] = useState<Formdata>({
       loginId: '',
       pwd: ''
    })
@@ -40,24 +44,14 @@ function LoginForm() {
                profileImageUrl: decoded.profileImageUrl ? `/api/images${decoded.profileImageUrl}` : null // 아직 경로 지정 안됨
             }
          })
-         const nowInSeconds = Date.now() / 1000;
-         const remainTime = (decoded.exp - nowInSeconds) * 1000;
-         const logoutTimer = setTimeout(() => {
-            dispatch({ type: "LOGOUT" });
-            nav("/");
-            alert("세션이 만료되어 자동 로그아웃 되었습니다.");
-         }, remainTime);
 
-         dispatch({ type: "SET_LOGOUT_TIMER", payload: logoutTimer });
-
+         onClose()
          alert("로그인 성공!");
-         // 8. 로그인 성공 후 원하는 페이지로 이동 (e.g., 메인 페이지)
          nav("/");
-         // 또는 모달을 사용하는 경우 onClose() 호출
-         alert("로그인 성공!")
          
       } catch (err) {
          console.log(err);
+         alert("로그인에 실패했습니다.")
       }
    }
 

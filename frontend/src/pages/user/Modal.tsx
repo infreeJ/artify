@@ -27,7 +27,7 @@ function Modal({ isOpen, onClose, mode }: ModalProps) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                </svg>
             </button>
-            {mode === 'login' ? <LoginForm /> : <SignupForm />}
+            {mode === 'login' ? <LoginForm onClose={onClose}/> : <SignupForm />}
          </div>
       </div>
    );
