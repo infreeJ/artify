@@ -11,7 +11,7 @@
 	<parent>
 	    <groupId>org.springframework.boot</groupId>
 	    <artifactId>spring-boot-starter-parent</artifactId>
-	    <version>3.3.4</version> <relativePath/>
+	    <version>3.3.13</version> <relativePath/>
 	</parent>
 	<groupId>io.github.infreeJ</groupId>
 	<artifactId>backend</artifactId>
@@ -34,6 +34,24 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	
+	
+	
+	<dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.cloud</groupId>
+                <artifactId>libraries-bom</artifactId>
+                <version>26.32.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+	
+	
+	
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -105,8 +123,27 @@
 			<version>0.11.5</version>
 			<scope>runtime</scope>
 		</dependency>
-    
+		
+		
+		
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-vertexai</artifactId>
+        </dependency>
+		
+		
 	</dependencies>
+
+
+
+
+
 
 	<build>
 		<plugins>

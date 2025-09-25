@@ -46,7 +46,7 @@ function Navigation() {
                      <Link to="/" className="text-2xl font-bold text-blue-600">Artify</Link>
                      <ul className="hidden md:flex ml-10 space-x-8">
                         <li>
-                           <NavLink to="/write" className={({ isActive }) => cn(
+                           <NavLink to="/diaryForm" className={({ isActive }) => cn(
                               "text-gray-500 hover:text-gray-900 font-medium",
                               { "text-blue-600": isActive }
                            )}>일기 작성</NavLink>

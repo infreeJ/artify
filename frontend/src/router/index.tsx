@@ -1,11 +1,14 @@
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
-import Modal from "../pages/user/Modal";
+import Diary from "../pages/diary/Diary";
+import DiaryForm from "../pages/diary/DiaryForm";
 
 const routes = [
    { path : "/index.html", element : <Home/>},
    { path : "/", element : <Home/>},
+   { path : "/diary", element : <Diary/>},
+   { path : "/diaryForm", element : <DiaryForm/>},
 
 ]
 
