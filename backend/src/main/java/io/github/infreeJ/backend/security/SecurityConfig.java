@@ -28,7 +28,7 @@ public class SecurityConfig {
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
-		String[] whiteList = {"/user", "/login", "/signup", "/swagger-ui/**", "/v3/api-docs/**", "/api/diaries/generate-image"};
+		String[] whiteList = {"/user", "/login", "/signup", "/swagger-ui/**", "/v3/api-docs/**", "/diary-save"};
 		
         http
         	.csrf(AbstractHttpConfigurer::disable)

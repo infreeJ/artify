@@ -3,13 +3,17 @@
 <mapper namespace="io.github.infreeJ.backend.repository.DiaryImageMapper">
 
 	<insert id="diaryImageInsert" parameterType="diaryImageDto">
-		INSERT INTO diary_images(id, diary_id, org_diary_img_name, uuid_diary_img_name)
-		VALUES(diary_images_seq.NEXTVAL, #{id}, #{orgDiaryImgName}, #{uuidDiaryImgName})
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT diary_images_seq.NEXTVAL
+			FROM DUAL
+		</selectKey>
+		INSERT INTO diary_images(id, diary_id, prompt, image_url)
+		VALUES(#{id}, #{diaryId}, #{prompt}, #{imageUrl})
 	</insert>
 	
 	<update id="diaryImageUpdate" parameterType="diaryImageDto">
 		UPDATE diary_images
-		SET org_diary_img_name = #{orgDiaryImgName}, uuid_diary_img_name = #{uuidDiaryImgName}
+		SET prompt = #{prompt}, image_url = #{imageUrl}
 		WHERE id = #{id}
 	</update>
 	
