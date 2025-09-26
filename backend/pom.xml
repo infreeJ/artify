@@ -133,7 +133,11 @@
     </dependency>
 
 
-
+<dependency>
+    <groupId>com.google.auth</groupId>
+    <artifactId>google-auth-library-oauth2-http</artifactId>
+    <version>1.25.0</version> <!-- 최신 버전으로 교체 가능 -->
+</dependency>
 		
 		
 	</dependencies>
