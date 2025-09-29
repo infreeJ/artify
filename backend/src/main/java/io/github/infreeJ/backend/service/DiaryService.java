@@ -5,9 +5,9 @@ import io.github.infreeJ.backend.dto.UserDto;
 
 public interface DiaryService {
 	
-	public DiaryDto getDiaryDetailByDiaryId(long id);
+	public DiaryDto getDiaryDetailByDiaryId(Long id);
 	
-	public UserDto getDiaryListByUserId(long id);
+	public UserDto getDiaryListByUserId(Long id);
 	
 	public int createDiary(DiaryDto dto);
 	

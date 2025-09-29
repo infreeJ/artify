@@ -1,9 +1,6 @@
 package io.github.infreeJ.backend.repository;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
 
 import io.github.infreeJ.backend.dto.UserDto;
 
@@ -14,7 +11,7 @@ public interface UserMapper {
 	public UserDto getDetailById(long id);
 	
 	// 유저 생성
-	public long createUser(UserDto dto);
+	public int createUser(UserDto dto);
 	
 	// 유저 삭제
 	public int deleteUserById(long id);
@@ -25,7 +22,7 @@ public interface UserMapper {
 	// 유저 비밀번호 변경
 	public int updatePwdById(UserDto dto);
 	
-	// loginId 중복 조회용
+	// loginId 중복 조회용 / Redux 저장용
 	public UserDto getByLoginId(String loginId);
 }
 

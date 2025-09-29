@@ -17,8 +17,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DiaryDto {
-	private long id;
-	private long userId;
+	private Long id;
+	private Long userId;
 	private String title;
 	private String content;
 	private int mood;

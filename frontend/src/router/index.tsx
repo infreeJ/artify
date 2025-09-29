@@ -3,12 +3,14 @@ import App from "../App";
 import Home from "../pages/Home";
 import Diary from "../pages/diary/Diary";
 import DiaryForm from "../pages/diary/DiaryForm";
+import DiaryDetail from "../pages/diary/DiaryDetail";
 
 const routes = [
    { path : "/index.html", element : <Home/>},
    { path : "/", element : <Home/>},
    { path : "/diary", element : <Diary/>},
-   { path : "/diaryForm", element : <DiaryForm/>},
+   { path : "/diary/form", element : <DiaryForm/>},
+   { path : "/diary/detail/:id", element : <DiaryDetail/>},
 
 ]
 

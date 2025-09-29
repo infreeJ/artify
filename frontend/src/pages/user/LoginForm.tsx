@@ -31,19 +31,33 @@ function LoginForm({onClose}: LoginFormProps) {
             loginId: state.loginId,
             pwd: state.pwd
          })
+
          const token = res.data.token
          localStorage.setItem("token", token)
          axios.defaults.headers.common['Authorization'] = token;
          const decoded = jwtDecode<DecodedToken>(token.substring(7))
+
+         const infoRes = await axios.get(`/api/user/loginId/${decoded.sub}`)
+         
          dispatch({
             type: "USER_INFO",
             payload: {
-               id: decoded.id,
+               id: infoRes.data.id,
                loginId: decoded.sub,
-               name: decoded.name,
-               profileImageUrl: decoded.profileImageUrl ? `/api/images${decoded.profileImageUrl}` : null // 아직 경로 지정 안됨
+               name: infoRes.data.name,
+               profileImageUrl: infoRes.data.profileImageUrl ? `/api/images${infoRes.data.profileImageUrl}` : null // 아직 경로 지정 안됨
             }
          })
+
+         // dispatch({
+         //    type: "USER_INFO",
+         //    payload: {
+         //       id: decoded.id,
+         //       loginId: decoded.sub,
+         //       name: decoded.name,
+         //       profileImageUrl: decoded.profileImageUrl ? `/api/images${decoded.profileImageUrl}` : null // 아직 경로 지정 안됨
+         //    }
+         // })
 
          onClose()
          alert("로그인 성공!");

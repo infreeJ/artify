@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -97,6 +98,11 @@ public class UserController {
 	@PatchMapping("/user")
 	public int updatePwdById(@RequestBody UserDto dto) {
 		return userService.updatePwdById(dto);
+	}
+	
+	@GetMapping("/user/loginId/{loginId}")
+	public UserDto getByLoginId(@PathVariable String loginId) {
+		return userService.getByLoginId(loginId);
 	}
 }
 

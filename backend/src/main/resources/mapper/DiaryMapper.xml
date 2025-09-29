@@ -54,7 +54,7 @@
 		WHERE id = #{id}
 	</update>
 	
-	<delete id="deleteDiary" parameterType="long">
+	<delete id="deleteDiary" parameterType="int">
 		DELETE FROM diaries
 		WHERE id = #{id}
 	</delete>

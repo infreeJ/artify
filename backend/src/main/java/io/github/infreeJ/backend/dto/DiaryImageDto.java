@@ -14,8 +14,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DiaryImageDto {
-	private long id;
-	private long diaryId;
+	private Long id;
+	private Long diaryId;
 	private String prompt;
 	private String imageUrl;
 	private LocalDateTime createdAt;

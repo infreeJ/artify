@@ -18,21 +18,22 @@ public class DiaryServiceImpl implements DiaryService{
 	
 
 	@Override
-	public DiaryDto getDiaryDetailByDiaryId(long id) {
+	public DiaryDto getDiaryDetailByDiaryId(Long id) {
 		return diaryMapper.getDiaryDetailByDiaryId(id);
 	}
 
 	@Override
-	public UserDto getDiaryListByUserId(long id) {
+	public UserDto getDiaryListByUserId(Long id) {
 		return diaryMapper.getDiaryListByUserId(id);
 	}
 
 	@Override
-	@Transactional
 	public int createDiary(DiaryDto dto) {
-		diaryMapper.createDiary(dto);
+		
 		// 이미지가 null이 아닐 때만 diaryImageInsert 호출
-		return imageMapper.diaryImageInsert(dto.getDiaryImage());
+//		return imageMapper.diaryImageInsert(dto.getDiaryImage());
+		return diaryMapper.createDiary(dto);
+		
 	}
 
 	@Override
