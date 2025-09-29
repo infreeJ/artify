@@ -13,9 +13,11 @@ public class DiaryImageController {
 	
 	private final DiaryImageService diaryImageService;
 	
-	@PostMapping("image-generate")
+	@PostMapping("/image-generate")
 	public String imageGanerate(@RequestBody String request) {
-		return diaryImageService.imageGenerate(request);
+		String imageUrl = diaryImageService.imageGenerate(request);
+		System.out.println(imageUrl);
+		return imageUrl;
 	}
 
 }

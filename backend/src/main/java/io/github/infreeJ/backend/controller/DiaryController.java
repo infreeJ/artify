@@ -30,8 +30,8 @@ public class DiaryController {
 	}
 	
 	@PostMapping("/diary")
-	public void createDiary(@RequestBody DiaryDto dto) {
-		service.createDiary(dto);
+	public long createDiary(@RequestBody DiaryDto dto) {
+		return service.createDiary(dto);
 	}
 	
 	@PutMapping("/diary")

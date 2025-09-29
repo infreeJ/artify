@@ -10,10 +10,6 @@ import axios from "axios";
 function DiaryForm() {
 
    const userId = useSelector((state: RootState) => {return state.userInfo?.id})
-   console.log("유저 아이디는 ", userId);
-   
-
-   const name = useSelector((state: RootState) => {return state.userInfo?.name})
    
    // const loginId = useSelector((state:RootState) => { return state.userInfo?.loginId})
    const nav = useNavigate();
@@ -42,16 +38,9 @@ function DiaryForm() {
       const obj = { userId, title, content, mood }
 
       try {
-         // console.log(userId);
-         
-         // console.log(name);
-
-         console.log(obj);
-         
-         
          const res = await axios.post("/api/diary", obj)
          alert("저장 완료")
-         nav(`/diary/detail/${res.data.id}`)
+         nav(`/diary/detail/${res.data}`)
       } catch (err) {
          console.log(err);
       }

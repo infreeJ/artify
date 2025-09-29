@@ -9,7 +9,7 @@ public interface DiaryService {
 	
 	public UserDto getDiaryListByUserId(Long id);
 	
-	public int createDiary(DiaryDto dto);
+	public long createDiary(DiaryDto dto);
 	
 	public int updateDiary(DiaryDto dto);
 	

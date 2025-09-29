@@ -28,12 +28,12 @@ public class DiaryServiceImpl implements DiaryService{
 	}
 
 	@Override
-	public int createDiary(DiaryDto dto) {
+	public long createDiary(DiaryDto dto) {
 		
 		// 이미지가 null이 아닐 때만 diaryImageInsert 호출
 //		return imageMapper.diaryImageInsert(dto.getDiaryImage());
-		return diaryMapper.createDiary(dto);
-		
+		diaryMapper.createDiary(dto);
+		return dto.getId();
 	}
 
 	@Override
