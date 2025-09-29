@@ -5,9 +5,6 @@ function SignupForm() {
 
    const [gender, setGender] = useState<number>();
 
-   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-      setGender(parseInt(e.currentTarget.value, 10))
-   }
 
    const [state, setState] = useState({
       loginId: '',
@@ -17,8 +14,14 @@ function SignupForm() {
       age: ''
    });
 
+
+   // 입력값 변경 핸들러
+   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+      setGender(parseInt(e.currentTarget.value, 10))
+   }
+
+   // 회원가입 요청
    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-      
       e.preventDefault()
       try {
          await api.post('/user', {
@@ -34,6 +37,7 @@ function SignupForm() {
       }
    }
 
+   // 입력값 변경 핸들러
    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
       setState({
          ...state,

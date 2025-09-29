@@ -1,5 +1,3 @@
-
-
 import {  useState } from "react";
 import ToastEditor from "../../components/ToastEditor";
 import { useNavigate } from "react-router-dom";
@@ -9,32 +7,31 @@ import axios from "axios";
 
 function DiaryForm() {
 
-   const userId = useSelector((state: RootState) => {return state.userInfo?.id})
-   
-   // const loginId = useSelector((state:RootState) => { return state.userInfo?.loginId})
    const nav = useNavigate();
-
+   const userId = useSelector((state: RootState) => {return state.userInfo?.id})
    const [title, setTitle] = useState<string>(' ')
    const [content, setContent] = useState<string>(' ')
    const [mood, setMood] = useState<string>("2")
 
-
+   // 입력값 변경 핸들러
    function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
       setTitle(e.target.value)
    }
 
+   // 입력값 변경 핸들러
    function handleContentChange(content: string) {
       setContent(content)
    }
 
+   // 입력값 변경 핸들러
    function handleMoodChange(e: React.ChangeEvent<HTMLInputElement>) {
       setMood(e.target.value)
    }
 
+
+   // 일기 작성 요청
    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
-      // const formData = new FormData(e.currentTarget)
-      // const obj = Object.fromEntries(formData)
       const obj = { userId, title, content, mood }
 
       try {

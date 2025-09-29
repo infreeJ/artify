@@ -4,7 +4,9 @@ import io.github.infreeJ.backend.dto.LoginRequestDto;
 import io.github.infreeJ.backend.dto.UserDto;
 
 public interface UserService {
-	public UserDto getDetailById(long id);
+	public UserDto getById(long id);
+
+	public UserDto getByLoginId(String loginId);
 	
 	public long createUser(UserDto dto);
 	
@@ -14,7 +16,7 @@ public interface UserService {
 	
 	public int updatePwdById(UserDto dto);
 
-	public UserDto getByLoginId(String loginId);
 	
-	public UserDto login(LoginRequestDto dto);
+	// 유령코드 문제없을 시 곧 삭제
+//	public UserDto login(LoginRequestDto dto);
 }

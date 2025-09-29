@@ -13,10 +13,8 @@ interface DiaryDetail {
 function DiaryDetail() {
 
    const { id } = useParams();
-
    const [imageUrl, setImageUrl] = useState<string>()
-
-   const [option, setOption] = useState<string>("")
+   const [option, setOption] = useState<string>("") // 추가 요청사항 상태값
 
    const [diaryState, setDiaryState] = useState<DiaryDetail>({
       title: "",
@@ -24,10 +22,12 @@ function DiaryDetail() {
       mood: ""
    })
 
+   // 입력값 변경 핸들러
    function handleOptionChange(e : React.ChangeEvent<HTMLInputElement>) {
       setOption(e.target.value)
    }
 
+   // 일기 정보 출력
    useEffect(() => {
       (async () => {
          const res = await axios.get(`/api/diary/detail/${id}`)
@@ -39,6 +39,7 @@ function DiaryDetail() {
       })()
    }, [])
 
+   // 이미지 생성 요청
    async function handleImageGenerate() {
       try {
          const res = await axios.post("/api/image-generate", {request : diaryState.content + " 이 일기를 바탕으로 이미지를 만들어줘 이미지는 뒤의 요청에 맞게 만들어줘 " + option})

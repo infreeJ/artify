@@ -1,8 +1,6 @@
 package io.github.infreeJ.backend.controller;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -36,6 +33,7 @@ public class UserController {
 	private final JwtUtil jwtUtil;
 	private final AuthenticationManager authManager;
 	
+	// 토큰 유효시간 확인용
 	@GetMapping("/ping")
 	public String ping() {
 		return "pong";
@@ -45,6 +43,7 @@ public class UserController {
 //	@GetMapping("/login-form")
 	
 	
+	// 로그인
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDto dto) {
 		
@@ -52,33 +51,42 @@ public class UserController {
 		
 		try {
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(dto.getLoginId(), dto.getPwd());
-			authentication = authManager.authenticate(authToken);
+			authentication = authManager.authenticate(authToken); // 비밀번호 검증
 		} catch (BadCredentialsException e) {
             log.error("Login failed for user: {}", dto.getLoginId(), e);
             Map<String, String> errorBody = Map.of("error", "아이디 또는 비밀번호가 잘못되었습니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorBody);
         }
 
-        String token = jwtUtil.generateToken(dto.getLoginId());
+        String token = jwtUtil.generateToken(dto.getLoginId()); // 토큰 생성
 
         Map<String, String> responseBody = Map.of("token", "Bearer " + token);
         return ResponseEntity.ok(responseBody);
 	}
 	
 	
-	// 사용자 세부 정보 조회
+	// id로 유저 상세정보 조회
 	@GetMapping("/user/{id}")
-	public UserDto getDetailById(long id) {
-		return userService.getDetailById(id);
+	public UserDto getById(long id) {
+		return userService.getById(id);
 	}
 	
-	// 사용자 삭제
+	
+	// loginId 유저 상세정보 조회
+	@GetMapping("/user/loginId/{loginId}")
+	public UserDto getByLoginId(@PathVariable String loginId) {
+		return userService.getByLoginId(loginId);
+	}
+	
+		
+	// id로 유저 삭제
 	@DeleteMapping("/user")
 	public int deleteUserById(@RequestBody long id) {
 		return userService.deleteUserById(id);
 	}
 	
-	// 사용자 생성
+	
+	// 유저 생성
 	@PostMapping("/user")
 	public ResponseEntity<Map<String, Long>> createUser(@RequestBody UserDto dto) {
 		Long newId = userService.createUser(dto);
@@ -88,21 +96,17 @@ public class UserController {
 	}
 	
 
-	// 사용자 정보 수정
+	// id로 유저 정보 업데이트
 	@PutMapping("/user")
 	public int updateUserById(@RequestBody UserDto dto) {
 		return userService.updateUserById(dto);
 	}
 	
-	// 사용자 비밀번호 수정
+	
+	// id로 유저 비밀번호 변경
 	@PatchMapping("/user")
 	public int updatePwdById(@RequestBody UserDto dto) {
 		return userService.updatePwdById(dto);
-	}
-	
-	@GetMapping("/user/loginId/{loginId}")
-	public UserDto getByLoginId(@PathVariable String loginId) {
-		return userService.getByLoginId(loginId);
 	}
 }
 

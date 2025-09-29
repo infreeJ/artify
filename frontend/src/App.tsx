@@ -1,7 +1,7 @@
 import { useOutlet } from 'react-router-dom'
 import './App.css'
-import Navigation from './pages/Navigation';
 import useAuthJwt from './hooks/useAuthJwt';
+import Navigation from './components/Navigation';
 
 
 function App() {

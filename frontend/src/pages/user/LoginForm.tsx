@@ -24,6 +24,7 @@ function LoginForm({onClose}: LoginFormProps) {
       pwd: ''
    })
 
+   // 로그인 요청
    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault()
       try {
@@ -37,8 +38,10 @@ function LoginForm({onClose}: LoginFormProps) {
          axios.defaults.headers.common['Authorization'] = token;
          const decoded = jwtDecode<DecodedToken>(token.substring(7))
 
+         // 로그인한 유저의 정보 호출
          const infoRes = await axios.get(`/api/user/loginId/${decoded.sub}`)
          
+         // store 저장
          dispatch({
             type: "USER_INFO",
             payload: {
@@ -49,17 +52,7 @@ function LoginForm({onClose}: LoginFormProps) {
             }
          })
 
-         // dispatch({
-         //    type: "USER_INFO",
-         //    payload: {
-         //       id: decoded.id,
-         //       loginId: decoded.sub,
-         //       name: decoded.name,
-         //       profileImageUrl: decoded.profileImageUrl ? `/api/images${decoded.profileImageUrl}` : null // 아직 경로 지정 안됨
-         //    }
-         // })
-
-         onClose()
+         onClose() // 모달창 비활성화
          alert("로그인 성공!");
          nav("/");
          
@@ -69,8 +62,7 @@ function LoginForm({onClose}: LoginFormProps) {
       }
    }
 
-
-
+   // 입력값 변경 핸들러
    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
       setState({
          ...state,

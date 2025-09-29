@@ -1,6 +1,6 @@
 import React from 'react';
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
+import LoginForm from '../pages/user/LoginForm';
+import SignupForm from '../pages/user/SignupForm';
 
 interface ModalProps {
    isOpen: boolean;
@@ -10,6 +10,7 @@ interface ModalProps {
 
 function Modal({ isOpen, onClose, mode }: ModalProps) {
 
+   // 오버레이 클릭 시 모달창 비활성화
    function handleBackgroundClick(e : React.MouseEvent<HTMLDivElement>) {
       if(e. target === e.currentTarget) {
          onClose();

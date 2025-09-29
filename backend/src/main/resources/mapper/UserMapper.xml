@@ -2,18 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.github.infreeJ.backend.repository.UserMapper">
 
-	<select id="getDetailById" parameterType="long" resultType="userDto">
+	<!-- id로 유저 상세정보 출력 -->
+	<select id="getById" parameterType="long" resultType="userDto">
 		SELECT *
 		FROM users
 		WHERE id = #{id}
 	</select>
 	
+	<!-- loginId로 유저 상세정보 출력 -->
 	<select id="getByLoginId" parameterType="String" resultType="userDto">
 		SELECT *
 		FROM users
 		WHERE login_id = #{loginId}
 	</select>
 	
+	<!-- 유저 생성 -->
 	<insert id="createUser" parameterType="userDto">
 		<selectKey keyProperty="id" resultType="long" order="BEFORE">
 			SELECT users_seq.NEXTVAL
@@ -23,17 +26,20 @@
 		VALUES(#{id}, #{loginId}, #{pwd}, #{name}, #{age}, #{gender})
 	</insert>
 	
+	<!-- id로 유저 삭제 -->
 	<delete id="deleteUserById" parameterType="long">
 		DELETE FROM users
 		WHERE id = #{id}
 	</delete>
 	
+	<!-- id로 유저 정보 업데이트 -->
 	<update id="updateUserById" parameterType="userDto">
 		UPDATE users
 		SET login_id = #{loginId}, name = #{name}, age = #{age}, gender = #{gender}, persona = #{persona}, org_profile_img_name = #{orgProfileImgName}, uuid_profile_img_name = #{uuidProfileImgName}
 		WHERE id = #{id}
 	</update>
 	
+	<!-- id로 유저 비밀번호 변경 -->
 	<update id="updatePwdById" parameterType="userDto">
 		UPDATE users
 		SET pwd = #{pwd}
