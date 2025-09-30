@@ -1,9 +1,12 @@
 package io.github.infreeJ.backend.service;
 
+import java.io.IOException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.infreeJ.backend.dto.DiaryDto;
+import io.github.infreeJ.backend.dto.DiaryImageDto;
 import io.github.infreeJ.backend.dto.UserDto;
 import io.github.infreeJ.backend.repository.DiaryImageMapper;
 import io.github.infreeJ.backend.repository.DiaryMapper;
@@ -14,36 +17,52 @@ import lombok.RequiredArgsConstructor;
 public class DiaryServiceImpl implements DiaryService{
 	
 	private final DiaryMapper diaryMapper;
-	private final DiaryImageMapper imageMapper;
+	private final DiaryImageMapper diaryImageMapper;
+	private final ImageManagerService imageManagerService;
 	
 
+	// id로 일기 상세정보 출력
 	@Override
 	public DiaryDto getDiaryDetailByDiaryId(Long id) {
 		return diaryMapper.getDiaryDetailByDiaryId(id);
 	}
 
+	// 유저 id로 해당 유저 일기 목록 출력
 	@Override
 	public UserDto getDiaryListByUserId(Long id) {
 		return diaryMapper.getDiaryListByUserId(id);
 	}
 
+	// 일기 생성
 	@Override
-	public long createDiary(DiaryDto dto) {
+	@Transactional(rollbackFor = IOException.class)
+	public long createDiary(DiaryDto dto) throws IOException {
 		
-		// 이미지가 null이 아닐 때만 diaryImageInsert 호출
-//		return imageMapper.diaryImageInsert(dto.getDiaryImage());
 		diaryMapper.createDiary(dto);
+		
+		DiaryImageDto imageDto = dto.getDiaryImage();
+		
+		imageDto = imageManagerService.downloadAndSaveImage(imageDto);
+		
+		diaryImageMapper.createDiaryImage(imageDto);
+		
+		return dto.getId();
+	}
+	
+
+	// 일기 내용 업데이트
+	@Override
+	@Transactional
+	public long updateDiary(DiaryDto dto) {
+		
+		diaryMapper.updateDiary(dto);
+		
+		diaryImageMapper.updateDiaryImage(dto.getDiaryImage());
+		
 		return dto.getId();
 	}
 
-	@Override
-	@Transactional
-	public int updateDiary(DiaryDto dto) {
-		diaryMapper.updateDiary(dto);
-		
-		return imageMapper.diaryImageUpdate(dto.getDiaryImage());
-	}
-
+	//일기 삭제
 	@Override
 	public int deleteDiary(long id) {
 		return diaryMapper.deleteDiary(id);

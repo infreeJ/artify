@@ -1,5 +1,7 @@
 package io.github.infreeJ.backend.controller;
 
+import java.io.IOException;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,26 +21,31 @@ public class DiaryController {
 	
 	private final DiaryService service;
 	
+	// id로 일기 상세정보 출력
 	@GetMapping("diary/detail/{id}")
 	public DiaryDto getDiaryDetailByDiaryId(@PathVariable Long id) {
 		return service.getDiaryDetailByDiaryId(id);
 	}
 	
+	// 유저 id로 해당 유저 일기 목록 출력
 	@GetMapping("/diary/list/{id}")
 	public UserDto getDiaryListByUserId(@PathVariable Long id) {
 		return service.getDiaryListByUserId(id);
 	}
 	
+	// 일기 생성
 	@PostMapping("/diary")
-	public long createDiary(@RequestBody DiaryDto dto) {
+	public long createDiary(@RequestBody DiaryDto dto) throws IOException {
 		return service.createDiary(dto);
 	}
 	
+	// 일기 내용 업데이트
 	@PutMapping("/diary")
-	public int updateDiary(@RequestBody DiaryDto dto) {
+	public long updateDiary(@RequestBody DiaryDto dto) {
 		return service.updateDiary(dto);
 	}
 
+	// 일기 삭제
 	@DeleteMapping("/diary")
 	public int deleteDiary(@RequestBody Long id) {
 		return service.deleteDiary(id);

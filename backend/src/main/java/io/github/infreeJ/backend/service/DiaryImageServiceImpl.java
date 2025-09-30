@@ -1,48 +1,33 @@
 package io.github.infreeJ.backend.service;
 
-import org.springframework.ai.image.ImageModel;
-import org.springframework.ai.image.ImageOptions;
-import org.springframework.ai.image.ImageOptionsBuilder;
-import org.springframework.ai.image.ImagePrompt;
-import org.springframework.ai.image.ImageResponse;
 import org.springframework.stereotype.Service;
 
+import io.github.infreeJ.backend.dto.DiaryImageDto;
+import io.github.infreeJ.backend.repository.DiaryImageMapper;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class DiaryImageServiceImpl implements DiaryImageService{
+public class DiaryImageServiceImpl implements DiaryImageSerive{
 	
-	private final ImageModel imageModel;
+	private final DiaryImageMapper diaryImageMapper;
 
+	// 일기 이미지 저장
 	@Override
-	public String imageGenerate(String request) {
-		
-		ImageOptions options = ImageOptionsBuilder.builder()
-				.model("dall-e-3")
-				.width(1024)
-				.height(1024)
-				.build();
-		
-		ImagePrompt prompt = new ImagePrompt(request, options);
-		ImageResponse response = imageModel.call(prompt);
-		
-		String imageUrl = response.getResult().getOutput().getUrl();
-		
-		return imageUrl;
+	public int createDiaryImage(DiaryImageDto dto) {
+		return diaryImageMapper.createDiaryImage(dto);
+	}
+
+	// 일기 이미지 수정
+	@Override
+	public int updateDiaryImage(DiaryImageDto dto) {
+		return diaryImageMapper.updateDiaryImage(dto);
+	}
+
+	// 일기 이미지 삭제
+	@Override
+	public int deleteDiaryImage(long id) {
+		return diaryImageMapper.deleteDiaryImage(id);
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

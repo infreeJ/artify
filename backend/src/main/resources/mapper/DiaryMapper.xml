@@ -23,6 +23,7 @@
 		<collection property="diaries" resultMap="DiaryWithImageMap"/>
 	</resultMap>
 	
+	<!-- 일기 id로 일기 상세정보 출력 -->
 	<select id="getDiaryDetailByDiaryId" parameterType="long" resultMap="DiaryWithImageMap">
 		SELECT d.id AS diary_id, d.title, d.content, d.mood, d.created_at,
 			i.id AS image_id, i.org_diary_img_name, i.uuid_diary_img_name
@@ -30,6 +31,7 @@
 		WHERE d.id = #{id}
 	</select>
 	
+	<!-- 유저 id로 해당 유저 일기 목록 출력 -->
 	<select id="getDiaryListByUserId" parameterType="long" resultMap="userWithDiariesAndImageMap">
 		SELECT u.id AS user_id,
 			d.id AS diary_id, d.title, d.mood, d.created_at,
@@ -39,6 +41,7 @@
 		WHERE u.id = #{id}
 	</select>
 	
+	<!-- 일기 생성 -->
 	<insert id="createDiary" parameterType="diaryDto">
 		<selectKey keyProperty="id" resultType="long" order="BEFORE">
 			SELECT diaries_seq.NEXTVAL
@@ -48,12 +51,14 @@
 		VALUES (#{id}, #{userId}, #{title}, #{content}, #{mood})
 	</insert>
 	
+	<!-- 일기 내용 업데이트 -->
 	<update id="updateDiary" parameterType="diaryDto">
 		UPDATE diaries
 		SET title = #{title}, content = #{content}, mood = #{mood}
 		WHERE id = #{id}
 	</update>
 	
+	<!-- 일기 삭제 -->
 	<delete id="deleteDiary" parameterType="int">
 		DELETE FROM diaries
 		WHERE id = #{id}
