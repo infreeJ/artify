@@ -1,11 +1,13 @@
 package io.github.infreeJ.backend.service;
 
+import java.io.IOException;
+
 import io.github.infreeJ.backend.dto.DiaryImageDto;
 
 public interface DiaryImageSerive {
 	
 	// 일기 이미지 저장
-	public int createDiaryImage(DiaryImageDto dto);
+	public int createDiaryImage(DiaryImageDto dto) throws IOException;
 	
 	// 일기 이미지 수정
 	public int updateDiaryImage(DiaryImageDto dto);

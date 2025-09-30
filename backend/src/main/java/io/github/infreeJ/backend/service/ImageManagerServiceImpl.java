@@ -64,7 +64,8 @@ public class ImageManagerServiceImpl implements ImageManagerService{
         if (lastDot > 0) {
             fileExtension = originalFileName.substring(lastDot);
         }
-        String savedFileName = UUID.randomUUID().toString() + fileExtension;
+//        String savedFileName = UUID.randomUUID().toString() + fileExtension;
+        String savedFileName = UUID.randomUUID().toString() + ".jpg";
         
         // 파일명을 dto에 삽입
         dto.setOrgDiaryImgName(originalFileName);

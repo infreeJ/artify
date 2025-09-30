@@ -32,6 +32,7 @@ function DiaryForm() {
    // 일기 작성 요청
    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
+      
       const obj = { userId, title, content, mood }
 
       try {
