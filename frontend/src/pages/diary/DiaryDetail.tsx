@@ -8,6 +8,7 @@ interface DiaryDetail {
    mood: string
    imageUrl: string
    imageType: string
+   imageName: string
 }
 
 function DiaryDetail() {
@@ -20,7 +21,8 @@ function DiaryDetail() {
       content: "",
       mood: "",
       imageUrl: "",
-      imageType: ""
+      imageType: "",
+      imageName: "",
    })
 
    // 입력값 변경 핸들러
@@ -33,11 +35,11 @@ function DiaryDetail() {
       (async () => {
          const res = await axios.get(`/api/diary/detail/${id}`)
          setDiaryState({
+            ...diaryState,
             title: res.data.title,
             content: res.data.content,
             mood: res.data.mood,
-            imageUrl: "",
-            imageType: ""
+            imageName: res.data.diaryImage.uuidDiaryImgName
          })
       })()
    }, [])
@@ -78,13 +80,18 @@ function DiaryDetail() {
             <div>{diaryState.content}</div>
             <div>{diaryState.mood}</div>
          </div>
-         {diaryState.imageUrl && <img src={diaryState.imageUrl} width="512px" height="512px" alt="생성된 이미지" />}
+         { diaryState.imageName && <img src={`http://localhost:9001/images/diary-images/${diaryState.imageName}`} width="512px" height="512px"></img>}
+         { diaryState.imageUrl &&
+         <div> <img src={diaryState.imageUrl} width="512px" height="512px" alt="생성된 이미지" />
+         
+         <br />
+         <button onClick={handleImageGenerate} className="border bg-red-300 rounded-md" type="button">이미지 다시 생성하기</button>
+         <button onClick={handleImageSave} className="border bg-blue-300 rounded-md" type="button">이미지 저장하기</button>
+         </div> }
          <label htmlFor="option">추가 요청사항</label>
          <input onChange={handleOptionChange} type="text" className="bg-slate-500 rounded-md" name="option" id="option" value={option} />
-         <br />
-         {diaryState.imageUrl && <button onClick={handleImageGenerate} className="border bg-red-300 rounded-md" type="button">이미지 다시 생성하기</button>}
-         {diaryState.imageUrl && <button onClick={handleImageSave} className="border bg-blue-300 rounded-md" type="button">이미지 저장하기</button>}
          {!diaryState.imageUrl && <button onClick={handleImageGenerate} className="border bg-red-300 rounded-md" type="button">이미지 생성하기</button>}
+         
       </>
    );
 }

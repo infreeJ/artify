@@ -1,12 +1,15 @@
 package io.github.infreeJ.backend.security;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.github.infreeJ.backend.service.CustomUserDetailsService;
@@ -19,13 +22,16 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter{
-
+	
+	private final AntPathMatcher pathMatcher = new AntPathMatcher();
+	
 	private final JwtUtil jwtUtil;
 	private final CustomUserDetailsService userDetailsService;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		
 		
 		final String authHeader = request.getHeader("Authorization");
         final String jwtToken;
