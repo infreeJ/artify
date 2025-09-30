@@ -2,10 +2,10 @@ package io.github.infreeJ.backend.service;
 
 import java.io.IOException;
 
-import io.github.infreeJ.backend.dto.DiaryImageDto;
+import io.github.infreeJ.backend.dto.DiaryDto;
 
 public interface ImageManagerService {
 	public String DiaryImageGenerate(String request);
 	
-	public DiaryImageDto downloadAndSaveImage(DiaryImageDto dto) throws IOException;
+	public DiaryDto downloadAndSaveImage(DiaryDto dto) throws IOException;
 }

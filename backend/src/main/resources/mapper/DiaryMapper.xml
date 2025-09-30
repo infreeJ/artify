@@ -2,21 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.github.infreeJ.backend.repository.DiaryMapper">
 
-	
+	<!-- 여기부터 -->
 	<resultMap type="io.github.infreeJ.backend.dto.DiaryImageDto" id="DiaryImageMap">
         <id property="id" column="image_id"/> 
         <result property="orgDiaryImgName" column="org_diary_img_name"/>
         <result property="uuidDiaryImgName" column="uuid_diary_img_name"/>
     </resultMap>
-	
+    <!-- 여기까지 삭제 예정 -->
+    
 	<resultMap type="io.github.infreeJ.backend.dto.DiaryDto" id="DiaryWithImageMap">
 		<id property="id" column="diary_id"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
 		<result property="mood" column="mood"/>
 		<result property="createdAt" column="created_at"/>
-		<association property="diaryImage" resultMap="DiaryImageMap"/>
 	</resultMap>
+	
 	
 	<resultMap type="io.github.infreeJ.backend.dto.UserDto" id="userWithDiariesAndImageMap">
 		<id property="id" column="user_id"/>
@@ -24,20 +25,19 @@
 	</resultMap>
 	
 	<!-- 일기 id로 일기 상세정보 출력 -->
-	<select id="getDiaryDetailByDiaryId" parameterType="long" resultMap="DiaryWithImageMap">
-		SELECT d.id AS diary_id, d.title, d.content, d.mood, d.created_at,
-			i.id AS image_id, i.org_diary_img_name, i.uuid_diary_img_name
-		FROM diaries d LEFT JOIN diary_images i ON d.id = i.diary_id
-		WHERE d.id = #{id}
+	<select id="getDiaryDetailByDiaryId" parameterType="long" resultType="diaryDto">
+		SELECT id, title, content, mood, created_at,
+			org_diary_image_name, saved_diary_image_name
+		FROM diaries
+		WHERE id = #{id}
 	</select>
 	
 	<!-- 유저 id로 해당 유저 일기 목록 출력 -->
 	<select id="getDiaryListByUserId" parameterType="long" resultMap="userWithDiariesAndImageMap">
 		SELECT u.id AS user_id,
 			d.id AS diary_id, d.title, d.mood, d.created_at,
-			i.id AS image_id, i.org_diary_img_name, i.uuid_diary_img_name
+			d.org_diary_image_name, d.saved_diary_image_name
 		FROM users u LEFT JOIN diaries d ON u.id = d.user_id
-			LEFT JOIN diary_images i ON d.id = i.diary_id
 		WHERE u.id = #{id}
 	</select>
 	
@@ -47,8 +47,8 @@
 			SELECT diaries_seq.NEXTVAL
 			FROM DUAL
 		</selectKey>
-		INSERT INTO diaries (id, user_id, title, content, mood)
-		VALUES (#{id}, #{userId}, #{title}, #{content}, #{mood})
+		INSERT INTO diaries (id, user_id, title, content, mood, org_diary_image_name, saved_diary_image_name)
+		VALUES (#{id}, #{userId}, #{title}, #{content}, #{mood}, #{orgDiaryImageName}, #{savedDiaryImageName})
 	</insert>
 	
 	<!-- 일기 내용 업데이트 -->

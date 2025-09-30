@@ -23,5 +23,10 @@ public class DiaryDto {
 	private String content;
 	private int mood;
 	private LocalDateTime createdAt;
-	private DiaryImageDto diaryImage;
+	private String orgDiaryImageName;
+	private String savedDiaryImageName;
+	
+	// 추가로 필요한 필드
+	private String imageUrl;
+	private String imageType;
 }

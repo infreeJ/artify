@@ -1,13 +1,10 @@
 package io.github.infreeJ.backend.controller;
 
-import java.io.IOException;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.infreeJ.backend.dto.DiaryImageDto;
-import io.github.infreeJ.backend.service.DiaryImageSerive;
 import io.github.infreeJ.backend.service.ImageManagerService;
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 public class ImageController {
 	
 	private final ImageManagerService imageManagerService;
-	private final DiaryImageSerive diaryImageSerive;
 	
 	// dall-e-3 이미지 생성 요청
 	@PostMapping("/image-generate")
@@ -26,11 +22,12 @@ public class ImageController {
 		return imageUrl;
 	}
 	
-	// 일기 이미지 저장
-	@PostMapping("/diary-image-save")
-	public int createDiaryImage(@RequestBody DiaryImageDto dto) throws IOException {
-		return diaryImageSerive.createDiaryImage(dto);
-	}
+	// 삭제 예정
+//	// 일기 이미지 저장
+//	@PostMapping("/diary-image-save")
+//	public int createDiaryImage(@RequestBody DiaryImageDto dto) throws IOException {
+//		return diaryImageSerive.createDiaryImage(dto);
+//	}
 
 }
 

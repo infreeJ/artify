@@ -1,5 +1,7 @@
 package io.github.infreeJ.backend.service;
 
+import java.io.IOException;
+
 import io.github.infreeJ.backend.dto.DiaryDto;
 import io.github.infreeJ.backend.dto.UserDto;
 
@@ -12,7 +14,7 @@ public interface DiaryService {
 	public UserDto getDiaryListByUserId(Long id);
 	
 	// 일기 생성
-	public long createDiary(DiaryDto dto);
+	public long createDiary(DiaryDto dto) throws IOException;
 	
 	// 일기 내용 업데이트
 	public long updateDiary(DiaryDto dto);

@@ -16,7 +16,7 @@ import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
 import org.springframework.stereotype.Service;
 
-import io.github.infreeJ.backend.dto.DiaryImageDto;
+import io.github.infreeJ.backend.dto.DiaryDto;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -44,7 +44,7 @@ public class ImageManagerServiceImpl implements ImageManagerService{
 	}
 	
 	@Override
-	public DiaryImageDto downloadAndSaveImage(DiaryImageDto dto) throws IOException {
+	public DiaryDto downloadAndSaveImage(DiaryDto dto) throws IOException {
 		
 		String subPath = dto.getImageType() + "-images/";
 		
@@ -68,8 +68,8 @@ public class ImageManagerServiceImpl implements ImageManagerService{
         String savedFileName = UUID.randomUUID().toString() + ".jpg";
         
         // 파일명을 dto에 삽입
-        dto.setOrgDiaryImgName(originalFileName);
-        dto.setUuidDiaryImgName(savedFileName);
+        dto.setOrgDiaryImageName(originalFileName);
+        dto.setSavedDiaryImageName(savedFileName);
 
         // 최종 저장 경로와 파일 이름 결합
         Path destinationFile = destinationDirectory.resolve(savedFileName);

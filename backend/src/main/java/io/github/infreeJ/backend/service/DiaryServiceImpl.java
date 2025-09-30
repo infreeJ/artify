@@ -1,11 +1,12 @@
 package io.github.infreeJ.backend.service;
 
+import java.io.IOException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.infreeJ.backend.dto.DiaryDto;
 import io.github.infreeJ.backend.dto.UserDto;
-import io.github.infreeJ.backend.repository.DiaryImageMapper;
 import io.github.infreeJ.backend.repository.DiaryMapper;
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class DiaryServiceImpl implements DiaryService{
 	
 	private final DiaryMapper diaryMapper;
-	private final DiaryImageMapper diaryImageMapper;
+	private final ImageManagerService imageManagerService;
 	
 
 	// id로 일기 상세정보 출력
@@ -31,8 +32,9 @@ public class DiaryServiceImpl implements DiaryService{
 
 	// 일기 생성
 	@Override
-	public long createDiary(DiaryDto dto) {
-		
+	public long createDiary(DiaryDto dto) throws IOException {
+
+		dto = imageManagerService.downloadAndSaveImage(dto);
 		diaryMapper.createDiary(dto);
 		
 		return dto.getId();
@@ -45,8 +47,6 @@ public class DiaryServiceImpl implements DiaryService{
 	public long updateDiary(DiaryDto dto) {
 		
 		diaryMapper.updateDiary(dto);
-		
-		diaryImageMapper.updateDiaryImage(dto.getDiaryImage());
 		
 		return dto.getId();
 	}

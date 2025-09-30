@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.github.infreeJ.backend.repository.DiaryImageMapper">
 
+<!-- 문서 전체 삭제 예정 -->
+
 	<!-- 일기 이미지 저장 -->
 	<insert id="createDiaryImage" parameterType="diaryImageDto">
 		<selectKey keyProperty="id" resultType="long" order="BEFORE">
