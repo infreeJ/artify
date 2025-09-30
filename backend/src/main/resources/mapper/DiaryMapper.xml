@@ -2,14 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.github.infreeJ.backend.repository.DiaryMapper">
 
-	<!-- 여기부터 -->
-	<resultMap type="io.github.infreeJ.backend.dto.DiaryImageDto" id="DiaryImageMap">
-        <id property="id" column="image_id"/> 
-        <result property="orgDiaryImgName" column="org_diary_img_name"/>
-        <result property="uuidDiaryImgName" column="uuid_diary_img_name"/>
-    </resultMap>
-    <!-- 여기까지 삭제 예정 -->
-    
 	<resultMap type="io.github.infreeJ.backend.dto.DiaryDto" id="DiaryWithImageMap">
 		<id property="id" column="diary_id"/>
 		<result property="title" column="title"/>

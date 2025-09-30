@@ -29,7 +29,9 @@ export default function ToastEditor({ value = '', height = '400px', onChange }: 
          initialEditType="wysiwyg"
          previewStyle="vertical"
          height={height}
-         useCommandShortcut={true}
+         useCommandShortcut={false}
+         toolbarItems={[]} 
+         hideModeSwitch={true}
          // onChange prop을 사용해 이벤트 처리
          onChange={handleChange}
       />
