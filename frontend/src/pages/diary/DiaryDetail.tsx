@@ -39,7 +39,7 @@ function DiaryDetail() {
             title: res.data.title,
             content: res.data.content,
             mood: res.data.mood,
-            imageName: res.data.diaryImage.uuidDiaryImgName
+            imageName: res.data.diaryImage?.uuidDiaryImgName
          })
       })()
    }, [])
@@ -83,7 +83,6 @@ function DiaryDetail() {
          { diaryState.imageName && <img src={`http://localhost:9001/images/diary-images/${diaryState.imageName}`} width="512px" height="512px"></img>}
          { diaryState.imageUrl &&
          <div> <img src={diaryState.imageUrl} width="512px" height="512px" alt="생성된 이미지" />
-         
          <br />
          <button onClick={handleImageGenerate} className="border bg-red-300 rounded-md" type="button">이미지 다시 생성하기</button>
          <button onClick={handleImageSave} className="border bg-blue-300 rounded-md" type="button">이미지 저장하기</button>
@@ -91,7 +90,6 @@ function DiaryDetail() {
          <label htmlFor="option">추가 요청사항</label>
          <input onChange={handleOptionChange} type="text" className="bg-slate-500 rounded-md" name="option" id="option" value={option} />
          {!diaryState.imageUrl && <button onClick={handleImageGenerate} className="border bg-red-300 rounded-md" type="button">이미지 생성하기</button>}
-         
       </>
    );
 }

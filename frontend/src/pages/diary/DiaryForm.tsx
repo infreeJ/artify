@@ -34,6 +34,8 @@ function DiaryForm() {
       e.preventDefault();
       
       const obj = { userId, title, content, mood }
+      console.log(obj);
+      
 
       try {
          const res = await axios.post("/api/diary", obj)
