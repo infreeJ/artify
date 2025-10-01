@@ -12,7 +12,7 @@ const routes = [
    { path : "/diary", element : <Diary/>},
    { path : "/diary-form", element : <DiaryForm/>},
    { path : "/diary/image-form", element : <DiaryImageForm/>},
-   { path : "/diary/detail/id", element : <DiaryDetail/>},
+   { path : "/diary/detail/:id", element : <DiaryDetail/>},
 
 ]
 
