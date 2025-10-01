@@ -57,9 +57,19 @@ public class JwtUtil {
     
     // 복잡한 createToken 로직을 내부에 숨겨두고 간단히 토큰을 생성을 하는 메서드
     // Role 정보가 없는 경우의 토큰 생성
+    // username만 저장
     public String generateToken(String username) {
-        // 내부적으로 기존 createToken 메서드를 빈 claims 맵과 함께 호출합니다.
+        // 내부적으로 기존 createToken 메서드를 빈 claims 맵과 함께 호출
         return createToken(Collections.emptyMap(), username);
+    }
+    
+    // 복잡한 createToken 로직을 내부에 숨겨두고 간단히 토큰을 생성을 하는 메서드
+    // Role 정보가 없는 경우의 토큰 생성
+    // username과 userId 추가 저장
+    public String generateToken(Long userId, String username) {
+    	Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId); // 추가 정보에 PK 추가
+        return createToken(claims, username);
     }
 
 	// 복잡한 createToken 로직을 내부에 숨겨두고 간단히 토큰을 생성을 하는 메서드

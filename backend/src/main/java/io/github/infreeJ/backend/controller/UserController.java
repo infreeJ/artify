@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.infreeJ.backend.dto.LoginRequestDto;
 import io.github.infreeJ.backend.dto.UserDto;
 import io.github.infreeJ.backend.security.JwtUtil;
+import io.github.infreeJ.backend.service.CustomUserDetails;
 import io.github.infreeJ.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,8 +58,16 @@ public class UserController {
             Map<String, String> errorBody = Map.of("error", "아이디 또는 비밀번호가 잘못되었습니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorBody);
         }
+		
+		// 인증 결과에서 CustomUserDetails 가져오기
+	    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        String token = jwtUtil.generateToken(dto.getLoginId()); // 토큰 생성
+	    // CustomUserDetails에서 id와 username 가져오기
+	    Long userId = userDetails.getId();
+	    String username = userDetails.getUsername();
+
+	    // id와 username을 모두 사용하는 generateToken로 토큰 생성
+	    String token = jwtUtil.generateToken(userId, username);
 
         Map<String, String> responseBody = Map.of("token", "Bearer " + token);
         return ResponseEntity.ok(responseBody);

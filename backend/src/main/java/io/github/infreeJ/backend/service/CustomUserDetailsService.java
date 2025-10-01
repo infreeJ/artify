@@ -29,9 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 			throw new UsernameNotFoundException("아이디를 찾지 못했습니다. " + loginId);
 		}
 
-		List<GrantedAuthority> authList=new ArrayList<>();
-		UserDetails userDetails = new User(dto.getLoginId(), dto.getPwd(), authList);
-		return userDetails;
+		return new CustomUserDetails(dto);
 	}
 }
 

@@ -1,16 +1,29 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import type { RootState } from "../../store/types";
 import type { DiaryDetailSaveType } from "../../types/diary.types";
-
+import { jwtDecode } from "jwt-decode";
+import type { TokenPayload } from "../../types/user.types";
 
 
 function DiaryImageForm() {
 
    const nav = useNavigate();
-   const userId = useSelector((state: RootState) => { return state.userInfo?.id })
+
+
+   const [userId, setUserId] = useState<number | undefined>();
+
+   // 토큰 가져오기
+   const token = localStorage.getItem("token");
+
+   // 가져온 토큰 업데이트
+   useEffect(() => {
+      if (token) {
+         const decoded = jwtDecode<TokenPayload>(token);
+         setUserId(decoded.userId)
+      }
+   }, [])
+
    const location = useLocation();
    const [option, setOption] = useState<string>("") // 추가 요청사항 상태값
 
@@ -46,7 +59,6 @@ function DiaryImageForm() {
 
    // 이미지 생성 요청
    async function handleImageGenerate() {
-      alert(selectedStyle)
       alert("이미지 생성 중입니다. 10~15초 소요되니 잠시만 기다려주세요")
       try {
          const obj = {
@@ -143,7 +155,7 @@ function DiaryImageForm() {
       setSelectedStyle(styleOptions[currentIndex].id)
    }, [currentIndex])
 
-   
+
 
    return (
       <>
@@ -169,9 +181,10 @@ function DiaryImageForm() {
                         <div className="flex gap-4 transition-transform duration-300 ease-in-out" style={trackStyle}>
                            {styleOptions.map((style) => (
                               <div key={style.id} className="flex-shrink-0 w-52">
-                                 <button type="button" onClick={() => {setSelectedStyle(style.id)
+                                 <button type="button" onClick={() => {
+                                    setSelectedStyle(style.id)
                                     console.log(selectedStyle);
-                                    
+
                                  }}
                                     className={`w-full rounded-lg overflow-hidden transition-all focus:outline-none ${selectedStyle === style.id ? 'ring-4 ring-indigo-500' : 'ring-1 ring-gray-300'}`}>
                                     <img src={style.previewImage} alt={style.label} className="w-full h-48 object-cover" />
