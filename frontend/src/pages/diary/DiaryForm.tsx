@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import type { DiaryInputType } from "../../types/diary.types";
 
 function DiaryForm() {
 
    const nav = useNavigate();
+   const location = useLocation(); // 이미지 폼에서 돌아왔을 때 받을 상태값
 
    const [inputState, setInputState] = useState<DiaryInputType>({
-      title: "",
-      content: "",
-      mood: ""
+      title: location ? location.state.title : "",
+      content: location ? location.state.content : "",
+      mood: location ? location.state.mood : ""
    })
 
    const moodOptions = [
