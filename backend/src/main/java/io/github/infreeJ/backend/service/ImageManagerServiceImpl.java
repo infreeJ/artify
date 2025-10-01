@@ -26,6 +26,8 @@ public class ImageManagerServiceImpl implements ImageManagerService{
 	private final ImageModel imageModel;
 	private final String uploadBaseDir = "../../images/";
 
+	
+	// 이미지 생성
 	@Override
 	public String DiaryImageGenerate(String request) {
 		
@@ -43,6 +45,8 @@ public class ImageManagerServiceImpl implements ImageManagerService{
 		return imageUrl;
 	}
 	
+	
+	// 이미지 다운로드 및 저장
 	@Override
 	public DiaryDto downloadAndSaveImage(DiaryDto dto) throws IOException {
 		

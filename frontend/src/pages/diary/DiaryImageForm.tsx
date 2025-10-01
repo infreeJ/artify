@@ -134,13 +134,13 @@ function DiaryImageForm() {
    return (
       <>
          <div className="flex flex-row mt-8 mx-auto gap-14 justify-center items-center">
-            <div className="bg-gray-100 flex flex-col items-center w-1/3 border rounded-lg shadow-md pb-12 h-[512px] relative">
+            <div className="bg-gray-100 flex flex-col items-center w-1/3 border rounded-lg shadow-md pb-12 h-[512px] relative p-5">
                <br />
                <br />
                <h3 className="font-bold text-xl text-neutral-600">{diaryState.title}</h3>
                <br />
                <br />
-               <p className="text-neutral-700">{diaryState.content}</p>
+               <p className="text-neutral-700 text-sm">{diaryState.content}</p>
                <button onClick={handelDiaryModify} className="absolute bottom-4 right-4 border-2 border-neutral-300 rounded-md bg-neutral-200 hover:bg-neutral-300 p-1">일기 수정하기</button>
             </div>
             <div className="flex flex-col justify-center">
@@ -174,10 +174,10 @@ function DiaryImageForm() {
 
                <div className="flex flex-col items-center mt-6 mb-4">
                   <label htmlFor="option">추가 요청사항</label>
-                  <textarea onChange={handleOptionChange} className="h-32 w-52 bg-slate-300 rounded-md" name="option" id="option" value={option} ></textarea>
+                  <textarea onChange={handleOptionChange} className="h-32 w-52 bg-slate-300 rounded-md" name="option" id="option" value={option} placeholder="요청사항을 작성하세요"></textarea>
                </div>
                {!diaryState.imageUrl
-                  ? <button onClick={handleImageGenerate}>이미지 생성하기</button>
+                  ? <button onClick={handleImageGenerate} className="bg-blue-200 mx-auto p-1 rounded-md">이미지 생성하기</button>
                   : <div className="flex flex-col gap-2">
                      <button className="bg-rose-200 mx-auto p-1 rounded-md" onClick={handleImageGenerate}>다시 생성하기</button>
                      <button className="bg-blue-200 mx-auto p-1 rounded-md" onClick={handleDiarySave}>일기 저장하기</button>
