@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { RootState } from "../../store/types";
@@ -12,7 +12,6 @@ function DiaryImageForm() {
    const nav = useNavigate();
    const userId = useSelector((state: RootState) => { return state.userInfo?.id })
    const location = useLocation();
-   // const { id } = useParams();
    const [option, setOption] = useState<string>("") // 추가 요청사항 상태값
 
    const [diaryState, setDiaryState] = useState<DiaryDetailSaveType>({
@@ -58,7 +57,6 @@ function DiaryImageForm() {
             option: option
          }
          const res = await axios.post("/api/image-generate", obj)
-         // setImageUrl(res.data)
          setDiaryState({
             ...diaryState,
             imageUrl: res.data
@@ -105,6 +103,7 @@ function DiaryImageForm() {
 
 
 
+   // 이미지 스타일 옵션
    const styleOptions = [
       { id: 'photorealistic', label: '실사', previewImage: 'https://picsum.photos/id/237/200/300' },
       { id: 'anime-style', label: '애니메이션', previewImage: 'https://picsum.photos/seed/picsum/200/300' },
@@ -123,6 +122,13 @@ function DiaryImageForm() {
    const visibleItems = 1; // 1개 출력
    const maxIndex = styleOptions.length - visibleItems;
 
+   // 현재 인덱스에 따라 track의 위치를 계산
+   const trackStyle = {
+      transform: `translateX(-${currentIndex * itemWidth}px)`,
+   };
+
+
+   // 스타일 캐러셀 조작
    const handlePrev = () => {
       setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
    };
@@ -131,12 +137,13 @@ function DiaryImageForm() {
       setCurrentIndex((prevIndex) => (prevIndex < maxIndex ? prevIndex + 1 : maxIndex));
    };
 
-   // 현재 인덱스에 따라 track의 위치를 계산
-   const trackStyle = {
-      transform: `translateX(-${currentIndex * itemWidth}px)`,
-   };
 
+   // 스타일 상태값 변경
+   useEffect(() => {
+      setSelectedStyle(styleOptions[currentIndex].id)
+   }, [currentIndex])
 
+   
 
    return (
       <>
