@@ -47,9 +47,17 @@ function DiaryImageForm() {
 
    // 이미지 생성 요청
    async function handleImageGenerate() {
+      alert(selectedStyle)
       alert("이미지 생성 중입니다. 10~15초 소요되니 잠시만 기다려주세요")
       try {
-         const res = await axios.post("/api/image-generate", { request: diaryState.content + " 이 일기를 바탕으로 이미지를 만들어줘 이미지는 뒤의 요청에 맞게 만들어줘 " + option })
+         const obj = {
+            userId: userId,
+            title: diaryState.title,
+            content: diaryState.content,
+            style: selectedStyle,
+            option: option
+         }
+         const res = await axios.post("/api/image-generate", obj)
          // setImageUrl(res.data)
          setDiaryState({
             ...diaryState,
@@ -99,12 +107,11 @@ function DiaryImageForm() {
 
    const styleOptions = [
       { id: 'photorealistic', label: '실사', previewImage: 'https://picsum.photos/id/237/200/300' },
-      { id: 'cartoon', label: '카툰', previewImage: 'https://picsum.photos/seed/picsum/200/300' },
-      { id: 'watercolor', label: '수채화', previewImage: 'https://picsum.photos/200/300?grayscale' },
+      { id: 'anime-style', label: '애니메이션', previewImage: 'https://picsum.photos/seed/picsum/200/300' },
+      { id: 'watercolor-painting', label: '수채화', previewImage: 'https://picsum.photos/200/300?grayscale' },
       { id: 'pixel-art', label: '픽셀 아트', previewImage: 'https://picsum.photos/id/237/200/300' },
-      { id: 'van-gogh', label: '반 고흐', previewImage: 'https://picsum.photos/seed/picsum/200/300' },
-      { id: 'line-art', label: '라인 아트', previewImage: 'https://picsum.photos/200/300?grayscale' },
-      { id: '3d-render', label: '3D 렌더', previewImage: 'https://picsum.photos/id/237/200/300' },
+      { id: 'pencil-sketch', label: '연필 스케치', previewImage: 'https://picsum.photos/seed/picsum/200/300' },
+      { id: 'digital-art', label: '디지털 아트', previewImage: 'https://picsum.photos/200/300?grayscale' },
    ];
 
 
@@ -155,7 +162,10 @@ function DiaryImageForm() {
                         <div className="flex gap-4 transition-transform duration-300 ease-in-out" style={trackStyle}>
                            {styleOptions.map((style) => (
                               <div key={style.id} className="flex-shrink-0 w-52">
-                                 <button type="button" onClick={() => setSelectedStyle(style.id)}
+                                 <button type="button" onClick={() => {setSelectedStyle(style.id)
+                                    console.log(selectedStyle);
+                                    
+                                 }}
                                     className={`w-full rounded-lg overflow-hidden transition-all focus:outline-none ${selectedStyle === style.id ? 'ring-4 ring-indigo-500' : 'ring-1 ring-gray-300'}`}>
                                     <img src={style.previewImage} alt={style.label} className="w-full h-48 object-cover" />
                                     <span className="block text-center py-2 text-sm font-semibold bg-gray-200">{style.label}</span>

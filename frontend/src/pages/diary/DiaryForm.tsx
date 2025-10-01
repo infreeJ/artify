@@ -8,9 +8,9 @@ function DiaryForm() {
    const location = useLocation(); // 이미지 폼에서 돌아왔을 때 받을 상태값
 
    const [inputState, setInputState] = useState<DiaryInputType>({
-      title: location ? location.state.title : "",
-      content: location ? location.state.content : "",
-      mood: location ? location.state.mood : ""
+      title: location.state ? location.state.title : "",
+      content: location.state ? location.state.content : "",
+      mood: location.state ? location.state.mood : ""
    })
 
    const moodOptions = [
