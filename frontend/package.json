@@ -10,9 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@toast-ui/react-editor": "^3.2.3",
     "axios": "^1.12.2",
     "classnames": "^2.5.1",
+    "date-fns": "^4.1.0",
     "jwt-decode": "^4.0.0",
     "openai": "^5.23.0",
     "react": "^19.1.1",

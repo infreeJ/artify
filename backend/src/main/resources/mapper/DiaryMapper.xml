@@ -2,19 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.github.infreeJ.backend.repository.DiaryMapper">
 
-	<resultMap type="io.github.infreeJ.backend.dto.DiaryDto" id="DiaryWithImageMap">
-		<id property="id" column="diary_id"/>
-		<result property="title" column="title"/>
-		<result property="content" column="content"/>
-		<result property="mood" column="mood"/>
-		<result property="createdAt" column="created_at"/>
-	</resultMap>
-	
-	
-	<resultMap type="io.github.infreeJ.backend.dto.UserDto" id="userWithDiariesAndImageMap">
-		<id property="id" column="user_id"/>
-		<collection property="diaries" resultMap="DiaryWithImageMap"/>
-	</resultMap>
 	
 	<!-- 일기 id로 일기 상세정보 출력 -->
 	<select id="getDiaryDetailByDiaryId" parameterType="long" resultType="diaryDto">
@@ -24,14 +11,33 @@
 		WHERE id = #{id}
 	</select>
 	
+	
+	
+	<resultMap type="io.github.infreeJ.backend.dto.DiaryDto" id="DiaryMap">
+		<id property="id" column="diary_id"/>
+		<result property="title" column="title"/>
+		<result property="mood" column="mood"/>
+		<result property="createdAt" column="created_at"/>
+		<result property="savedDiaryImageName" column="saved_diary_image_name"/>
+	</resultMap>
+	
+	
+	<resultMap type="io.github.infreeJ.backend.dto.UserDto" id="userWithDiariesAndImageMap">
+		<id property="id" column="user_id"/>
+		<collection property="diaries" resultMap="DiaryMap"/>
+	</resultMap>
+	
 	<!-- 유저 id로 해당 유저 일기 목록 출력 -->
 	<select id="getDiaryListByUserId" parameterType="long" resultMap="userWithDiariesAndImageMap">
 		SELECT u.id AS user_id,
 			d.id AS diary_id, d.title, d.mood, d.created_at,
-			d.org_diary_image_name, d.saved_diary_image_name
+			d.saved_diary_image_name
 		FROM users u LEFT JOIN diaries d ON u.id = d.user_id
 		WHERE u.id = #{id}
+		ORDER BY d.id DESC
 	</select>
+	
+	
 	
 	<!-- 일기 생성 -->
 	<insert id="createDiary" parameterType="diaryDto">

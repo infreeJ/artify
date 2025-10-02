@@ -22,3 +22,4 @@ export interface LogoutAction {
 }
 
 export type AppAction = SetUserInfoAction | LogoutAction;
+
