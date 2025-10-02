@@ -6,7 +6,7 @@ export interface DiaryInputType  {
 }
 
 export interface DiaryDetailType extends DiaryInputType {
-   imageName: string
+   savedDiaryImageName: string
 }
 
 export interface DiaryDetailSaveType extends DiaryDetailType {

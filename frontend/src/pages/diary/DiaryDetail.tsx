@@ -20,12 +20,12 @@ function DiaryDetail() {
       mood: "",
       imageUrl: "",
       imageType: "",
-      imageName: ""
+      savedDiaryImageName: ""
    })
-
+   
 
    useEffect(() => {
-      if (location) {
+      if (location.state) {
          setDiaryState({
             ...diaryState,
             title: location.state.title,
@@ -41,7 +41,7 @@ function DiaryDetail() {
                   title: res.data.title,
                   content: res.data.content,
                   mood: res.data.mood,
-                  imageName: res.data.diaryImage?.uuidDiaryImgName
+                  savedDiaryImageName: res.data.savedDiaryImageName
                })
             } catch (err) {
                console.log(err);
@@ -86,6 +86,9 @@ function DiaryDetail() {
             <div className="bg-red-200 flex flex-col items-center w-1/3 border rounded-lg shadow-md pb-12 h-[512px]">
                {diaryState.imageUrl &&
                   <img src={diaryState.imageUrl} width="512px" height="512px" alt="생성된 이미지" className="rounded-lg" />
+               }
+               {diaryState.savedDiaryImageName &&
+                  <img src={`http://localhost:9001/images/diary-images/${diaryState.savedDiaryImageName}`} width="512px" height="512px" alt="생성된 이미지" className="rounded-lg" />
                }
             </div>
          </div>

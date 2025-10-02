@@ -12,7 +12,7 @@ const routes = [
    { path : "/diary-form", element : <DiaryForm/>},
    // { path : "/diary/image-form", element : <DiaryImageForm/>},
    { path : "/diary/detail", element : <DiaryDetail/>}, // 지금 막 작성하고 있는 일기
-   { path : "/diary/detail/:userId", element : <DiaryDetail/>}, // 이미 생성된 일기 세부정보 페이지
+   { path : "/diary/detail/:diaryId", element : <DiaryDetail/>}, // 이미 생성된 일기 세부정보 페이지
 
 ]
 

@@ -5,8 +5,7 @@
 	
 	<!-- 일기 id로 일기 상세정보 출력 -->
 	<select id="getDiaryDetailByDiaryId" parameterType="long" resultType="diaryDto">
-		SELECT id, title, content, mood, created_at,
-			org_diary_image_name, saved_diary_image_name
+		SELECT id, title, content, mood, created_at, saved_diary_image_name
 		FROM diaries
 		WHERE id = #{id}
 	</select>
