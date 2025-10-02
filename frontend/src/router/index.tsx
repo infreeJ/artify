@@ -3,7 +3,6 @@ import App from "../App";
 import Home from "../pages/Home";
 import Diary from "../pages/diary/Diary";
 import DiaryForm from "../pages/diary/DiaryForm";
-import DiaryImageForm from "../pages/diary/DiaryImageForm";
 import DiaryDetail from "../pages/diary/DiaryDetail";
 
 const routes = [
@@ -11,8 +10,9 @@ const routes = [
    { path : "/", element : <Home/>},
    { path : "/diary", element : <Diary/>},
    { path : "/diary-form", element : <DiaryForm/>},
-   { path : "/diary/image-form", element : <DiaryImageForm/>},
-   { path : "/diary/detail/:id", element : <DiaryDetail/>},
+   // { path : "/diary/image-form", element : <DiaryImageForm/>},
+   { path : "/diary/detail", element : <DiaryDetail/>}, // 지금 막 작성하고 있는 일기
+   { path : "/diary/detail/:id", element : <DiaryDetail/>}, // 이미 생성된 일기 세부정보 페이지
 
 ]
 

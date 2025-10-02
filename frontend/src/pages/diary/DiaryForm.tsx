@@ -31,7 +31,7 @@ function DiaryForm() {
    }
 
    function handleBtnClick() {
-      nav("/diary/image-form", {
+      nav("/diary/detail", {
          state: {
             title: inputState.title,
             content: inputState.content,

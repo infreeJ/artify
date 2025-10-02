@@ -1,23 +1,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import type { DiaryDetailSaveType } from "../../types/diary.types";
 import { jwtDecode } from "jwt-decode";
 import type { TokenPayload } from "../../types/user.types";
 
-interface StateProps {
-   diaryState: DiaryDetailSaveType
-   setDiaryState: React.Dispatch<React.SetStateAction<DiaryDetailSaveType>>
-}
 
-
-function DiaryImageForm({diaryState, setDiaryState}: StateProps) {
+function DiaryImageForm() {
 
    const nav = useNavigate();
 
+
    const [userId, setUserId] = useState<number | undefined>();
+
    // 토큰 가져오기
    const token = localStorage.getItem("token");
+
    // 가져온 토큰 업데이트
    useEffect(() => {
       if (token) {
@@ -26,57 +24,37 @@ function DiaryImageForm({diaryState, setDiaryState}: StateProps) {
       }
    }, [token, setUserId])
 
-
-
-// 이미지 스타일 옵션
-   const styleOptions = [
-      { id: 'photorealistic', label: '실사', previewImage: 'https://picsum.photos/id/237/200/300' },
-      { id: 'anime-style', label: '애니메이션', previewImage: 'https://picsum.photos/seed/picsum/200/300' },
-      { id: 'watercolor-painting', label: '수채화', previewImage: 'https://picsum.photos/200/300?grayscale' },
-      { id: 'pixel-art', label: '픽셀 아트', previewImage: 'https://picsum.photos/id/237/200/300' },
-      { id: 'pencil-sketch', label: '연필 스케치', previewImage: 'https://picsum.photos/seed/picsum/200/300' },
-      { id: 'digital-art', label: '디지털 아트', previewImage: 'https://picsum.photos/200/300?grayscale' },
-   ];
-
-   const [selectedStyle, setSelectedStyle] = useState('photorealistic');
-   // 현재 캐러셀의 위치(인덱스)를 추적하는 상태
-   const [currentIndex, setCurrentIndex] = useState(0);
-
-   const itemWidth = 208 + 16; // 아이템 너비 + 갭
-   const visibleItems = 1; // 1개 출력
-   const maxIndex = styleOptions.length - visibleItems;
-
-   // 현재 인덱스에 따라 track의 위치를 계산
-   const trackStyle = {
-      transform: `translateX(-${currentIndex * itemWidth}px)`,
-   };
-
-   // 스타일 캐러셀 조작
-   const handlePrev = () => {
-      setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
-   };
-
-   const handleNext = () => {
-      setCurrentIndex((prevIndex) => (prevIndex < maxIndex ? prevIndex + 1 : maxIndex));
-   };
-
-   // 스타일 상태값 변경
-   useEffect(() => {
-      setSelectedStyle(styleOptions[currentIndex].id)
-   }, [currentIndex])
-
-
-
-
-
+   const location = useLocation();
    const [option, setOption] = useState<string>("") // 추가 요청사항 상태값
+
+   const [diaryState, setDiaryState] = useState<DiaryDetailSaveType>({
+      title: location.state.title,
+      content: location.state.content,
+      mood: location.state.mood,
+      imageUrl: "",
+      imageType: "",
+      imageName: "",
+   })
+
 
    // 입력값 변경 핸들러
    function handleOptionChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
       setOption(e.target.value)
    }
 
-
+   // // 일기 정보 출력
+   // useEffect(() => {
+   //    (async () => {
+   //       const res = await axios.get(`/api/diary/detail/${id}`)
+   //       setDiaryState({
+   //          ...diaryState,
+   //          title: res.data.title,
+   //          content: res.data.content,
+   //          mood: res.data.mood,
+   //          imageName: res.data.diaryImage?.uuidDiaryImgName
+   //       })
+   //    })()
+   // }, [])
 
 
    // 이미지 생성 요청
@@ -112,9 +90,9 @@ function DiaryImageForm({diaryState, setDiaryState}: StateProps) {
          imageType: "diary"
       }
       try {
-         alert("저장 중입니다. 잠시만 기다려주세요")
          const res = await axios.post("/api/diary", obj)
          alert("저장 완료")
+         alert(res.data)
          nav(`/diary/detail/${res.data}`)
       } catch (err) {
          console.log(err);
@@ -122,11 +100,78 @@ function DiaryImageForm({diaryState, setDiaryState}: StateProps) {
    }
 
 
+   // 일기 작성 폼으로 돌아가기
+   function handelDiaryModify() {
+      nav("/diary-form", { // 상태값 전달
+         state: {
+            title: diaryState.title,
+            content: diaryState.content,
+            mood: diaryState.mood
+         }
+      })
+   }
+
+
+
+
+
+   // 이미지 스타일 옵션
+   const styleOptions = [
+      { id: 'photorealistic', label: '실사', previewImage: 'https://picsum.photos/id/237/200/300' },
+      { id: 'anime-style', label: '애니메이션', previewImage: 'https://picsum.photos/seed/picsum/200/300' },
+      { id: 'watercolor-painting', label: '수채화', previewImage: 'https://picsum.photos/200/300?grayscale' },
+      { id: 'pixel-art', label: '픽셀 아트', previewImage: 'https://picsum.photos/id/237/200/300' },
+      { id: 'pencil-sketch', label: '연필 스케치', previewImage: 'https://picsum.photos/seed/picsum/200/300' },
+      { id: 'digital-art', label: '디지털 아트', previewImage: 'https://picsum.photos/200/300?grayscale' },
+   ];
+
+
+   const [selectedStyle, setSelectedStyle] = useState('photorealistic');
+   // 현재 캐러셀의 위치(인덱스)를 추적하는 상태
+   const [currentIndex, setCurrentIndex] = useState(0);
+
+   const itemWidth = 208 + 16; // 아이템 너비 + 갭
+   const visibleItems = 1; // 1개 출력
+   const maxIndex = styleOptions.length - visibleItems;
+
+   // 현재 인덱스에 따라 track의 위치를 계산
+   const trackStyle = {
+      transform: `translateX(-${currentIndex * itemWidth}px)`,
+   };
+
+
+   // 스타일 캐러셀 조작
+   const handlePrev = () => {
+      setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
+   };
+
+   const handleNext = () => {
+      setCurrentIndex((prevIndex) => (prevIndex < maxIndex ? prevIndex + 1 : maxIndex));
+   };
+
+
+   // 스타일 상태값 변경
+   useEffect(() => {
+      setSelectedStyle(styleOptions[currentIndex].id)
+   }, [currentIndex])
 
 
 
    return (
       <>
+         <div className="flex flex-row mt-8 mx-auto gap-14 justify-center items-center">
+            <div className="bg-gray-100 flex flex-col items-center w-1/3 border rounded-lg shadow-md pb-12 h-[512px] relative p-5">
+               <br />
+               <br />
+               <h3 className="font-bold text-xl text-neutral-600">{diaryState.title}</h3>
+               <br />
+               <br />
+               <p className="text-neutral-700 text-sm">{diaryState.content}</p>
+               <button onClick={handelDiaryModify} className="absolute bottom-4 right-4 border-2 border-neutral-300 rounded-md bg-neutral-200 hover:bg-neutral-300 p-1">일기 수정하기</button>
+            </div>
+
+
+
             <div className="flex flex-col justify-center">
                <div className="w-full max-w-2xl mx-auto">
                   <h3 className="text-lg font-semibold mb-3">원하는 이미지 스타일을 선택하세요:</h3>
@@ -167,6 +212,17 @@ function DiaryImageForm({diaryState, setDiaryState}: StateProps) {
                   </div>
                }
             </div>
+
+
+
+
+            <div className="bg-red-200 flex flex-col items-center w-1/3 border rounded-lg shadow-md pb-12 h-[512px]">
+               {diaryState.imageUrl &&
+                  <img src={diaryState.imageUrl} width="512px" height="512px" alt="생성된 이미지" className="rounded-lg" />
+               }
+            </div>
+         </div>
+
       </>
    );
 }
