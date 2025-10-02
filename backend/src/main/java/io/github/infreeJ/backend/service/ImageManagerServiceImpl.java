@@ -36,8 +36,15 @@ public class ImageManagerServiceImpl implements ImageManagerService{
 	public String ImagePromptGenerate(ImageGenerateDto dto) {
 		ChatClient chatClient = ChatClient.builder(chatModel).build();
 
-		String title = dto.getTitle();
+//		String title = dto.getTitle(); // 자꾸 글자를 넣어서 제외
 		String content = dto.getContent();
+		int age = dto.getAge();
+		String gender = "";
+		if(dto.getGender() == 1) {
+			gender = "남자";
+		} else {
+			gender = "여자";
+		}
 		String persona = dto.getPersona();
 		String style = dto.getStyle();
 		String option = dto.getOption();
@@ -53,14 +60,15 @@ public class ImageManagerServiceImpl implements ImageManagerService{
 		String userRequestTemplate = """
 				아래 정보를 바탕으로 이미지 생성 프롬프트를 만들어 주세요.
 
-			    - 일기 제목: %s
 			    - 일기 내용: %s
+			    - 일기 작성자 나이: %s
+			    - 일기 작성자 성별: %s
 			    - 일기 작성자 특징 (페르소나): %s
 			    - 희망하는 그림 스타일: %s
 			    - 추가 요청사항: %s
 				""";
 		
-		String userRequest = String.format(userRequestTemplate, title, content, persona, style, option);
+		String userRequest = String.format(userRequestTemplate, content, age, gender, persona, style, option);
 		
 		
 		String prompt = chatClient.prompt()

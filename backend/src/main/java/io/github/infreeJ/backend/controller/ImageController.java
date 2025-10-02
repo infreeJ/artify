@@ -25,6 +25,8 @@ public class ImageController {
 		UserDto userDto = userService.getById(dto.getUserId());
 		
 		dto.setPersona(userDto.getPersona());
+		dto.setAge(userDto.getAge());
+		dto.setGender(userDto.getGender());
 		
 		String prompt = imageManagerService.ImagePromptGenerate(dto);
 		

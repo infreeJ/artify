@@ -18,5 +18,7 @@ public class ImageGenerateDto {
 	private String content;
 	private String style;
 	private String option;
+	private int age;
+	private int gender;
 	private String persona;
 }
