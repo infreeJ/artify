@@ -80,7 +80,7 @@ public class ImageManagerServiceImpl implements ImageManagerService{
 	public String DiaryImageGenerate(String prompt) {
 		
 		ImageOptions options = ImageOptionsBuilder.builder()
-				.model("dall-e-3")
+				.model("dall-e-2")
 				.width(1024)
 				.height(1024)
 				.build();
