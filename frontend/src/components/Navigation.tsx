@@ -1,9 +1,11 @@
 import cn from 'classnames'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../store/types';
 import Modal from './Modal';
+import { jwtDecode } from 'jwt-decode';
+import type { TokenPayload } from '../types/user.types';
 
 type ModalMode = 'login' | 'signup';
 
@@ -13,6 +15,20 @@ function Navigation() {
 
    const dispatch = useDispatch();
    const nav = useNavigate();
+
+
+   const [userId, setUserId] = useState<number | undefined>();
+   // 토큰 가져오기
+   const token = localStorage.getItem("token");
+   // 가져온 토큰 업데이트
+   useEffect(() => {
+      if (token) {
+         const decoded = jwtDecode<TokenPayload>(token);
+         setUserId(decoded.userId)
+      }
+   }, [token, setUserId])
+
+
 
    // 모달창 활성화
    function openModal(mode: ModalMode) {
@@ -33,7 +49,7 @@ function Navigation() {
    // 로그아웃 핸들러
    function handleLogout() {
       dispatch({
-         type : "LOGOUT"
+         type: "LOGOUT"
       })
       alert("로그아웃 완료")
       nav("/")
@@ -54,7 +70,7 @@ function Navigation() {
                            )}>일기 작성</NavLink>
                         </li>
                         <li>
-                           <NavLink to="/diary" className={({ isActive }) => cn(
+                           <NavLink to={`/diary/${userId}`} className={({ isActive }) => cn(
                               "text-gray-500 hover:text-gray-900 font-medium",
                               { "text-blue-600": isActive }
                            )}>일기 목록</NavLink>
@@ -65,7 +81,7 @@ function Navigation() {
                               { "text-blue-600": isActive }
                            )}>내 정보</NavLink>
                         </li>
-                        
+
                      </ul>
                   </div>
 

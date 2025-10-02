@@ -1,29 +1,56 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import type { DiaryDetailSaveType } from "../../types/diary.types";
 import DiaryImageForm from "./DiaryImageForm";
+import axios from "axios";
 
 
 function DiaryDetail() {
 
    const nav = useNavigate();
 
-   const {diaryId} = useParams();
-
-
-
-
-
    const location = useLocation();
 
+   const { diaryId } = useParams();
+
+
    const [diaryState, setDiaryState] = useState<DiaryDetailSaveType>({
-      title: location.state.title,
-      content: location.state.content,
-      mood: location.state.mood,
+      title: "",
+      content: "",
+      mood: "",
       imageUrl: "",
       imageType: "",
-      imageName: location.state?.imageName
+      imageName: ""
    })
+
+
+   useEffect(() => {
+      if (location) {
+         setDiaryState({
+            ...diaryState,
+            title: location.state.title,
+            content: location.state.content,
+            mood: location.state.mood,
+         })
+      } else if (diaryId) {
+         (async () => {
+            try {
+               const res = await axios.get(`/api/diary/detail/${diaryId}`)
+               setDiaryState({
+                  ...diaryState,
+                  title: res.data.title,
+                  content: res.data.content,
+                  mood: res.data.mood,
+                  imageName: res.data.diaryImage?.uuidDiaryImgName
+               })
+            } catch (err) {
+               console.log(err);
+            }
+         })()
+      }
+
+   }, [diaryId, location])
+
 
 
 
@@ -40,21 +67,6 @@ function DiaryDetail() {
 
 
 
-   // // 일기 정보 출력
-   // useEffect(() => {
-   //    (async () => {
-   //       const res = await axios.get(`/api/diary/detail/${diaryId}`)
-   //       setDiaryState({
-   //          ...diaryState,
-   //          title: res.data.title,
-   //          content: res.data.content,
-   //          mood: res.data.mood,
-   //          imageName: res.data.diaryImage?.uuidDiaryImgName
-   //       })
-   //    })()
-   // }, [])
-
-
 
    return (
       <>
@@ -69,7 +81,7 @@ function DiaryDetail() {
                <button onClick={handelDiaryModify} className="absolute bottom-4 right-4 border-2 border-neutral-300 rounded-md bg-neutral-200 hover:bg-neutral-300 p-1">일기 수정하기</button>
             </div>
 
-            {!diaryId && <DiaryImageForm diaryState={diaryState} setDiaryState={setDiaryState}/>}
+            {!diaryId && <DiaryImageForm diaryState={diaryState} setDiaryState={setDiaryState} />}
 
             <div className="bg-red-200 flex flex-col items-center w-1/3 border rounded-lg shadow-md pb-12 h-[512px]">
                {diaryState.imageUrl &&

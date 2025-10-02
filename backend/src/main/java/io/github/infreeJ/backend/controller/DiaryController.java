@@ -21,7 +21,7 @@ public class DiaryController {
 	
 	private final DiaryService diaryService;
 	
-	// id로 일기 상세정보 출력
+	// 일기 id로 일기 상세정보 출력
 	@GetMapping("diary/detail/{id}")
 	public DiaryDto getDiaryDetailByDiaryId(@PathVariable Long id) {
 		return diaryService.getDiaryDetailByDiaryId(id);
@@ -30,6 +30,7 @@ public class DiaryController {
 	// 유저 id로 해당 유저 일기 목록 출력
 	@GetMapping("/diary/list/{id}")
 	public UserDto getDiaryListByUserId(@PathVariable Long id) {
+		System.out.println("요청 들어옴");
 		return diaryService.getDiaryListByUserId(id);
 	}
 	

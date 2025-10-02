@@ -15,6 +15,7 @@ function DiaryImageForm({diaryState, setDiaryState}: StateProps) {
 
    const nav = useNavigate();
 
+   
    const [userId, setUserId] = useState<number | undefined>();
    // 토큰 가져오기
    const token = localStorage.getItem("token");
