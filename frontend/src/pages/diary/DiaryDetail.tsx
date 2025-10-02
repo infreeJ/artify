@@ -48,7 +48,6 @@ function DiaryDetail() {
             }
          })()
       }
-
    }, [diaryId, location])
 
 
@@ -65,6 +64,10 @@ function DiaryDetail() {
       })
    }
 
+   function handleImageModify() {
+      nav("/diary/detail")
+   }
+
 
 
 
@@ -78,7 +81,8 @@ function DiaryDetail() {
                <br />
                <br />
                <p className="text-neutral-700 text-sm">{diaryState.content}</p>
-               <button onClick={handelDiaryModify} className="absolute bottom-4 right-4 border-2 border-neutral-300 rounded-md bg-neutral-200 hover:bg-neutral-300 p-1">일기 수정하기</button>
+               <button onClick={handelDiaryModify} className="absolute bottom-16 right-4 border-2 border-neutral-300 rounded-md bg-neutral-200 hover:bg-neutral-300 p-1">일기 수정하기</button>
+               <button onClick={handleImageModify} className="absolute bottom-4 right-4 border-2 border-indigo-300 rounded-md bg-indigo-200 hover:bg-indigo-300 p-1">이미지 수정하기</button>
             </div>
 
             {!diaryId && <DiaryImageForm diaryState={diaryState} setDiaryState={setDiaryState} />}
@@ -87,7 +91,7 @@ function DiaryDetail() {
                {diaryState.imageUrl &&
                   <img src={diaryState.imageUrl} width="512px" height="512px" alt="생성된 이미지" className="rounded-lg" />
                }
-               {diaryState.savedDiaryImageName &&
+               {diaryState.savedDiaryImageName && !location.state && !diaryState.imageUrl &&
                   <img src={`http://localhost:9001/images/diary-images/${diaryState.savedDiaryImageName}`} width="512px" height="512px" alt="생성된 이미지" className="rounded-lg" />
                }
             </div>
