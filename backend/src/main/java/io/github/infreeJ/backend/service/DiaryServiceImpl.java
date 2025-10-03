@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import io.github.infreeJ.backend.dto.DiaryDto;
 import io.github.infreeJ.backend.dto.UserDto;
@@ -43,10 +44,13 @@ public class DiaryServiceImpl implements DiaryService{
 
 	// 일기 내용 업데이트
 	@Override
-	@Transactional
-	public long updateDiary(DiaryDto dto) {
-		
-		diaryMapper.updateDiary(dto);
+	public long updateDiary(DiaryDto dto) throws IOException {
+		if(StringUtils.hasText(dto.getImageUrl())) {
+			dto = imageManagerService.downloadAndSaveImage(dto);
+			diaryMapper.updateDiary(dto);
+		} else {
+			diaryMapper.updateDiaryOnlyContent(dto);
+		}
 		
 		return dto.getId();
 	}

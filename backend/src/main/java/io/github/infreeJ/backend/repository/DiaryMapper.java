@@ -17,8 +17,11 @@ public interface DiaryMapper {
 	// 일기 생성
 	public int createDiary(DiaryDto dto);
 	
-	// 일기 내용 업데이트
+	// 일기 내용 업데이트(이미지 포함)
 	public int updateDiary(DiaryDto dto);
+	
+	// 일기 내용 업데이트(일기 내용만)
+	public int updateDiaryOnlyContent(DiaryDto dto);
 	
 	// 일기 삭제
 	public int deleteDiary(long id);

@@ -17,7 +17,7 @@ public interface DiaryService {
 	public long createDiary(DiaryDto dto) throws IOException;
 	
 	// 일기 내용 업데이트
-	public long updateDiary(DiaryDto dto);
+	public long updateDiary(DiaryDto dto) throws IOException;
 	
 	// 일기 삭제
 	public int deleteDiary(long id);

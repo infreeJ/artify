@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import type { DiaryInputType } from "../../types/diary.types";
 
 function DiaryForm() {
 
    const nav = useNavigate();
    const location = useLocation(); // 이미지 폼에서 돌아왔을 때 받을 상태값
+
+
+   // 이미 작성된 일기를 수정하려고 할 때 들어오는 값
+   const editDiaryId = location.state?.editDiaryId
+   const savedDiaryImageName = location.state?.savedDiaryImageName
+   
 
    const [inputState, setInputState] = useState<DiaryInputType>({
       title: location.state ? location.state.title : "",
@@ -21,6 +27,8 @@ function DiaryForm() {
       { name: 'happy', icon: '😄', value: "5" },
    ];
 
+   console.log(inputState.mood);
+   
 
    // 입력값 변경 핸들러
    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | React.MouseEvent<HTMLButtonElement>) {
@@ -35,7 +43,9 @@ function DiaryForm() {
          state: {
             title: inputState.title,
             content: inputState.content,
-            mood: inputState.mood
+            mood: inputState.mood,
+            editDiaryId: editDiaryId,
+            savedDiaryImageName: savedDiaryImageName
          }
       })
    }

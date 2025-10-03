@@ -11,7 +11,13 @@ function DiaryDetail() {
 
    const location = useLocation();
 
+
+   // 일기 상세보기를 눌러서 들어왔을 때 받을 diaryId
    const { diaryId } = useParams();
+
+   // 수정하고 돌아왔을 때 받을 diaryId
+   const editDiaryId = location.state?.editDiaryId
+   const savedDiaryImageName = location.state?.savedDiaryImageName
 
 
    const [diaryState, setDiaryState] = useState<DiaryDetailSaveType>({
@@ -20,9 +26,9 @@ function DiaryDetail() {
       mood: "",
       imageUrl: "",
       imageType: "",
-      savedDiaryImageName: ""
+      savedDiaryImageName: savedDiaryImageName
    })
-   
+
 
    useEffect(() => {
       if (location.state) {
@@ -55,17 +61,27 @@ function DiaryDetail() {
 
    // 일기 작성 폼으로 돌아가기
    function handelDiaryModify() {
-      nav("/diary-form", { // 상태값 전달
+      nav(`/diary-form`, { // 상태값 전달
          state: {
             title: diaryState.title,
             content: diaryState.content,
-            mood: diaryState.mood
+            mood: diaryState.mood,
+            editDiaryId: diaryId, // 업데이트 용도로 전달
+            savedDiaryImageName: diaryState.savedDiaryImageName // 업데이트 용도로 전달
          }
       })
    }
 
    function handleImageModify() {
-      nav("/diary/detail")
+      nav("/diary/detail", {
+         state: {
+            title: diaryState.title,
+            content: diaryState.content,
+            mood: diaryState.mood,
+            editDiaryId: diaryId, // 업데이트 용도로 전달
+            savedDiaryImageName: diaryState.savedDiaryImageName // 업데이트 용도로 전달
+         }
+      })
    }
 
 
@@ -81,17 +97,19 @@ function DiaryDetail() {
                <br />
                <br />
                <p className="text-neutral-700 text-sm">{diaryState.content}</p>
-               <button onClick={handelDiaryModify} className="absolute bottom-16 right-4 border-2 border-neutral-300 rounded-md bg-neutral-200 hover:bg-neutral-300 p-1">일기 수정하기</button>
-               <button onClick={handleImageModify} className="absolute bottom-4 right-4 border-2 border-indigo-300 rounded-md bg-indigo-200 hover:bg-indigo-300 p-1">이미지 수정하기</button>
+               {diaryId &&
+                  <button onClick={handleImageModify} className="absolute bottom-16 right-4 border-2 border-indigo-300 rounded-md bg-indigo-200 hover:bg-indigo-300 p-1">이미지 수정하기</button>
+               }
+               <button onClick={handelDiaryModify} className="absolute bottom-4 right-4 border-2 border-neutral-300 rounded-md bg-neutral-200 hover:bg-neutral-300 p-1">일기 수정하기</button>
             </div>
 
-            {!diaryId && <DiaryImageForm diaryState={diaryState} setDiaryState={setDiaryState} />}
+            {!diaryId && <DiaryImageForm diaryState={diaryState} setDiaryState={setDiaryState} editDiaryId={editDiaryId} />}
 
             <div className="bg-red-200 flex flex-col items-center w-1/3 border rounded-lg shadow-md pb-12 h-[512px]">
                {diaryState.imageUrl &&
                   <img src={diaryState.imageUrl} width="512px" height="512px" alt="생성된 이미지" className="rounded-lg" />
                }
-               {diaryState.savedDiaryImageName && !location.state && !diaryState.imageUrl &&
+               {diaryState.savedDiaryImageName && !diaryState.imageUrl &&
                   <img src={`http://localhost:9001/images/diary-images/${diaryState.savedDiaryImageName}`} width="512px" height="512px" alt="생성된 이미지" className="rounded-lg" />
                }
             </div>

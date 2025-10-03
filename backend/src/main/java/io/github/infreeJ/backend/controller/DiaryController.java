@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,8 +41,9 @@ public class DiaryController {
 	}
 	
 	// 일기 내용 업데이트
-	@PutMapping("/diary")
-	public long updateDiary(@RequestBody DiaryDto dto) {
+	@PatchMapping("/diary")
+	public long updateDiary(@RequestBody DiaryDto dto) throws IOException {
+		
 		return diaryService.updateDiary(dto);
 	}
 

@@ -48,8 +48,15 @@
 		VALUES (#{id}, #{userId}, #{title}, #{content}, #{mood}, #{orgDiaryImageName}, #{savedDiaryImageName})
 	</insert>
 	
-	<!-- 일기 내용 업데이트 -->
+	<!-- 일기 내용 업데이트(이미지포함) -->
 	<update id="updateDiary" parameterType="diaryDto">
+		UPDATE diaries
+		SET title = #{title}, content = #{content}, mood = #{mood}, org_diary_image_name = #{orgDiaryImageName}, saved_diary_image_name = #{savedDiaryImageName}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 일기 내용 업데이트(일기 내용만) -->
+	<update id="updateDiaryOnlyContent" parameterType="diaryDto">
 		UPDATE diaries
 		SET title = #{title}, content = #{content}, mood = #{mood}
 		WHERE id = #{id}
