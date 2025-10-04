@@ -90,13 +90,13 @@ function DiaryDetail() {
    return (
       <>
          <div className="flex flex-row mt-8 mx-auto gap-14 justify-center items-center">
-            <div className="bg-gray-100 flex flex-col items-center w-1/3 border rounded-lg shadow-md pb-12 h-[512px] relative p-5">
+            <div className="bg-gray-100 flex flex-col items-center w-1/3 border rounded-lg shadow-md pb-12 h-[512px] relative pl-8 pr-8 pt-4">
                <br />
                <br />
                <h3 className="font-bold text-xl text-neutral-600">{diaryState.title}</h3>
                <br />
                <br />
-               <p className="text-neutral-700 text-sm">{diaryState.content}</p>
+               <p className="text-neutral-700 text-sm leading-6">{diaryState.content}</p>
                {diaryId &&
                   <button onClick={handleImageModify} className="absolute bottom-16 right-4 border-2 border-indigo-300 rounded-md bg-indigo-200 hover:bg-indigo-300 p-1">이미지 수정하기</button>
                }

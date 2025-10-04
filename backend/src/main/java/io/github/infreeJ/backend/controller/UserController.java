@@ -75,9 +75,9 @@ public class UserController {
 	
 	
 	// id로 유저 상세정보 조회
-	@GetMapping("/user/{id}")
-	public UserDto getById(long id) {
-		return userService.getById(id);
+	@GetMapping("/user/{userId}")
+	public UserDto getById(@PathVariable long userId) {
+		return userService.getById(userId);
 	}
 	
 	
