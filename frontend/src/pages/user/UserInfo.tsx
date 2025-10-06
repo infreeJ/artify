@@ -4,9 +4,13 @@ import axios from "axios";
 import type { IsEdit, UserState } from "../../types/user.types";
 import InfoCompo from "../../components/InfoCompo";
 import { useNavigate } from "react-router-dom";
+import type { UseModalReturnType } from "../../types/modal.types";
+import useModal from "../../hooks/useModal";
+import Modal from "../../components/Modal";
 
 
 
+// 회원 정보 페이지
 function UserInfo() {
 
    const nav = useNavigate()
@@ -97,6 +101,10 @@ function UserInfo() {
    }
 
 
+   // 모달 훅
+   const {isModalOpen, modalMode, openModal, closeModal}: UseModalReturnType = useModal()
+
+
    return (
       <div className="bg-slate-100 min-h-screen py-10">
          <div className="bg-white w-full max-w-3xl mx-auto rounded-xl shadow-sm border border-slate-200">
@@ -106,7 +114,7 @@ function UserInfo() {
                   <p className="text-slate-800">{userState.loginId}</p>
                </div>
                <div className="flex items-center w-2/12">
-                  <button onClick={() => {nav(`/pwd-edit/${userId}`)}} className="text-sm font-semibold text-sky-600 hover:text-sky-700 transition-colors">비밀번호 변경</button>
+                  <button onClick={() => {openModal('pwd-edit')}} className="text-sm font-semibold text-sky-600 hover:text-sky-700 transition-colors">비밀번호 변경</button>
                </div>
             </div>
             <InfoCompo userState={userState} isEdit={isEdit} handleEditChange={handleEditChange} inputName="name" inputNameKo="이름" updateStat={updateStat} setUpdateState={setUpdateState} />
@@ -119,6 +127,12 @@ function UserInfo() {
             <button onClick={handleUpdate} className="px-4 py-2 rounded-lg shadow-sm font-semibold text-sm bg-blue-500 text-white hover:bg-blue-600 transition-colors">수정사항 저장</button>
             <button className="px-4 py-2 rounded-lg shadow-sm font-semibold text-sm bg-slate-200 text-slate-700 hover:bg-slate-300 transition-colors">회원 탈퇴</button>
          </div>
+
+         {isModalOpen && <Modal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            mode={modalMode}
+         />}
       </div>
    );
 }

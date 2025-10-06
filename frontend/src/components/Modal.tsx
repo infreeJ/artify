@@ -1,18 +1,20 @@
 import React from 'react';
 import LoginForm from '../pages/user/LoginForm';
 import SignupForm from '../pages/user/SignupForm';
+import type { ModalMode } from '../types/modal.types';
+import PwdEditForm from '../pages/user/PwdEditForm';
 
 interface ModalProps {
    isOpen: boolean;
    onClose: () => void;
-   mode: 'login' | 'signup';
+   mode: ModalMode;
 }
 
 function Modal({ isOpen, onClose, mode }: ModalProps) {
 
    // 오버레이 클릭 시 모달창 비활성화
-   function handleBackgroundClick(e : React.MouseEvent<HTMLDivElement>) {
-      if(e. target === e.currentTarget) {
+   function handleBackgroundClick(e: React.MouseEvent<HTMLDivElement>) {
+      if (e.target === e.currentTarget) {
          onClose();
       }
    }
@@ -20,6 +22,9 @@ function Modal({ isOpen, onClose, mode }: ModalProps) {
    if (!isOpen) {
       return null;
    }
+
+
+
    return (
       <div onClick={handleBackgroundClick} className='fixed inset-0 bg-black/60 flex justify-center items-center z-50'>
          <div className='bg-white p-8 rounded-lg shadow-xl w-full max-w-md relative'>
@@ -28,7 +33,18 @@ function Modal({ isOpen, onClose, mode }: ModalProps) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                </svg>
             </button>
-            {mode === 'login' ? <LoginForm onClose={onClose}/> : <SignupForm />}
+            {/* {mode === 'login' ? <LoginForm onClose={onClose} /> : <SignupForm />} */}
+            {(() => {
+               if (mode === 'login') {
+                  return <LoginForm onClose={onClose} />;
+               } else if (mode === 'signup') {
+                  return <SignupForm />;
+               } else if (mode === 'pwd-edit') {
+                  return <PwdEditForm />;
+               } else {
+                  return null; // 항상 기본 케이스를 처리해주는 게 좋아요.
+               }
+            })()}
          </div>
       </div>
    );

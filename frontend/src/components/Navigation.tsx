@@ -6,12 +6,13 @@ import type { RootState } from '../store/types';
 import Modal from './Modal';
 import { jwtDecode } from 'jwt-decode';
 import type { TokenPayload } from '../types/user.types';
+import useModal from '../hooks/useModal';
+import type { UseModalReturnType } from '../types/modal.types';
 
-type ModalMode = 'login' | 'signup';
+
 
 function Navigation() {
-   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-   const [modalMode, setModalMode] = useState<ModalMode>('login');
+
 
    const dispatch = useDispatch();
    const nav = useNavigate();
@@ -29,17 +30,8 @@ function Navigation() {
    }, [token, setUserId])
 
 
+   const {isModalOpen, modalMode, openModal, closeModal}: UseModalReturnType = useModal()
 
-   // 모달창 활성화
-   function openModal(mode: ModalMode) {
-      setModalMode(mode);
-      setIsModalOpen(true);
-   }
-
-   // 모달창 비활성화
-   function closeModal() {
-      setIsModalOpen(false);
-   }
 
    const userInfo = useSelector((state: RootState) => {
       return state.userInfo

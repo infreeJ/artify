@@ -13,6 +13,7 @@ interface InfoCompoType {
 }
 
 
+// 회원 정보 페이지에 들어갈 부품 컴포넌트
 function InfoCompo({ userState, isEdit, handleEditChange, inputName, inputNameKo, updateStat, setUpdateState }: InfoCompoType) {
 
    // input 요소 값 변경 핸들러
