@@ -106,14 +106,14 @@ public class UserController {
 	
 
 	// id로 유저 정보 업데이트
-	@PutMapping("/user")
+	@PatchMapping("/user")
 	public int updateUserById(@RequestBody UserDto dto) {
 		return userService.updateUserById(dto);
 	}
 	
 	
 	// id로 유저 비밀번호 변경
-	@PatchMapping("/user")
+	@PatchMapping("/user-pwd")
 	public int updatePwdById(@RequestBody UserDto dto) {
 		return userService.updatePwdById(dto);
 	}

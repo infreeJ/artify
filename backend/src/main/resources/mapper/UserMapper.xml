@@ -35,7 +35,7 @@
 	<!-- id로 유저 정보 업데이트 -->
 	<update id="updateUserById" parameterType="userDto">
 		UPDATE users
-		SET login_id = #{loginId}, name = #{name}, age = #{age}, gender = #{gender}, persona = #{persona}, org_profile_img_name = #{orgProfileImgName}, uuid_profile_img_name = #{uuidProfileImgName}
+		SET name = #{name}, age = #{age}, gender = #{gender}, persona = #{persona}
 		WHERE id = #{id}
 	</update>
 	
