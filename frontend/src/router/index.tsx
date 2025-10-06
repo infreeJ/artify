@@ -5,6 +5,7 @@ import Diary from "../pages/diary/Diary";
 import DiaryForm from "../pages/diary/DiaryForm";
 import DiaryDetail from "../pages/diary/DiaryDetail";
 import UserInfo from "../pages/user/UserInfo";
+import PwdEditForm from "../pages/user/PwdEditForm";
 
 const routes = [
    { path : "/index.html", element : <Home/>},
@@ -14,6 +15,7 @@ const routes = [
    { path : "/diary/detail", element : <DiaryDetail/>}, // 지금 막 작성하고 있는 일기
    { path : "/diary/detail/:diaryId", element : <DiaryDetail/>}, // 이미 생성된 일기 세부정보 페이지
    { path : "/user-info/:userId", element : <UserInfo/>}, // 유저 정보 페이지
+   { path : "/pwd-edit/:userId", element : <PwdEditForm/>}, // 유저 정보 페이지
 
 ]
 

@@ -40,7 +40,7 @@ function Diary() {
       <>
          <div className="grid grid-cols-4 gap-10 m-14">
             {diaryList?.map(item =>
-               <div onClick={() => {handleDetailNav(item.id)}} key={item.id} className="bg-slate-200 flex flex-col rounded-lg shadow-md p-4 hover:cursor-pointer">
+               <div onClick={() => { handleDetailNav(item.id) }} key={item.id} className="bg-slate-200 flex flex-col rounded-lg shadow-md p-4 hover:cursor-pointer">
                   <div className="h-auto mb-4">
                      <img className="rounded-lg" src={`http://localhost:9001/images/diary-images/${item.savedDiaryImageName}`} alt="일기 이미지" />
                   </div>
